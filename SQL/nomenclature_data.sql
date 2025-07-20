@@ -21,10 +21,10 @@ SET row_security = off;
 --
 -- TOC entry 8055 (class 0 OID 2558486)
 -- Dependencies: 374
--- Data for Name: biological_characteristic_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: biological_characteristic_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.biological_characteristic_type (no_id, no_code, no_type, no_name, bc_label, bc_unit, bc_data_type) FROM stdin;
+COPY damdb_nomenclature.biological_characteristic_type (no_id, no_code, no_type, no_name, bc_label, bc_unit, bc_data_type) FROM stdin;
 38	\N	Biological characteristic type	Unknown	Unknown	Unknown	Unknown
 42	\N	Biological characteristic type	Weight	Weight	g	real
 43	\N	Biological characteristic type	Age	Age	year	integer
@@ -53,10 +53,10 @@ COPY dbmig_nomenclature.biological_characteristic_type (no_id, no_code, no_type,
 --
 -- TOC entry 8058 (class 0 OID 2558508)
 -- Dependencies: 380
--- Data for Name: control_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: control_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.control_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.control_type (no_id, no_code, no_type, no_name) FROM stdin;
 84	\N	Control type	Unknown
 85	\N	Control type	Trapping
 86	\N	Control type	Resistivity fish counter
@@ -69,10 +69,10 @@ COPY dbmig_nomenclature.control_type (no_id, no_code, no_type, no_name) FROM std
 --
 -- TOC entry 8059 (class 0 OID 2558511)
 -- Dependencies: 381
--- Data for Name: downstream_mitigation_measure; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: downstream_mitigation_measure; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.downstream_mitigation_measure (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.downstream_mitigation_measure (no_id, no_code, no_type, no_name) FROM stdin;
 282	\N	downstream mitigation measure	Water intake
 283	\N	downstream mitigation measure	Fish friendly turbine
 284	\N	downstream mitigation measure	Fish adapted Management
@@ -82,10 +82,10 @@ COPY dbmig_nomenclature.downstream_mitigation_measure (no_id, no_code, no_type, 
 --
 -- TOC entry 8060 (class 0 OID 2558514)
 -- Dependencies: 382
--- Data for Name: ecological_productivity; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: ecological_productivity; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.ecological_productivity (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.ecological_productivity (no_id, no_code, no_type, no_name) FROM stdin;
 215	\N	Ecological productivity	Unknown
 216	\N	Ecological productivity	Good productivity
 217	\N	Ecological productivity	Bad productivity
@@ -95,10 +95,10 @@ COPY dbmig_nomenclature.ecological_productivity (no_id, no_code, no_type, no_nam
 --
 -- TOC entry 8061 (class 0 OID 2558517)
 -- Dependencies: 383
--- Data for Name: ecological_status_class; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: ecological_status_class; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.ecological_status_class (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.ecological_status_class (no_id, no_code, no_type, no_name) FROM stdin;
 90	\N	Ecological status class	High
 91	\N	Ecological status class	Good
 92	\N	Ecological status class	Moderate
@@ -110,10 +110,10 @@ COPY dbmig_nomenclature.ecological_status_class (no_id, no_code, no_type, no_nam
 --
 -- TOC entry 8062 (class 0 OID 2558520)
 -- Dependencies: 384
--- Data for Name: effort_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: effort_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.effort_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.effort_type (no_id, no_code, no_type, no_name) FROM stdin;
 99	\N	Effort type	Unknown
 100	\N	Effort type	Number of gear
 101	\N	Effort type	Duration days
@@ -127,10 +127,10 @@ COPY dbmig_nomenclature.effort_type (no_id, no_code, no_type, no_name) FROM stdi
 --
 -- TOC entry 8063 (class 0 OID 2558523)
 -- Dependencies: 385
--- Data for Name: electrofishing_mean; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: electrofishing_mean; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.electrofishing_mean (no_id, no_code, no_type, no_name, ef_definition) FROM stdin;
+COPY damdb_nomenclature.electrofishing_mean (no_id, no_code, no_type, no_name, ef_definition) FROM stdin;
 70	\N	Electrofishing mean	Unknown	\N
 71	\N	Electrofishing mean	By foot	\N
 72	\N	Electrofishing mean	By boat	\N
@@ -141,10 +141,10 @@ COPY dbmig_nomenclature.electrofishing_mean (no_id, no_code, no_type, no_name, e
 --
 -- TOC entry 8064 (class 0 OID 2558528)
 -- Dependencies: 386
--- Data for Name: fisher_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: fisher_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.fisher_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.fisher_type (no_id, no_code, no_type, no_name) FROM stdin;
 95	\N	Fisher type	Unknown
 96	\N	Fisher type	Professional fishing
 97	\N	Fisher type	Amateur fishing
@@ -155,10 +155,10 @@ COPY dbmig_nomenclature.fisher_type (no_id, no_code, no_type, no_name) FROM stdi
 --
 -- TOC entry 8065 (class 0 OID 2558531)
 -- Dependencies: 387
--- Data for Name: fishway_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: fishway_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.fishway_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.fishway_type (no_id, no_code, no_type, no_name) FROM stdin;
 270	VS	Fishway type	Vertical slot fishway
 271	PO	Fishway type	Pool type fishway
 272	FL	Fishway type	Fish lock
@@ -176,10 +176,10 @@ COPY dbmig_nomenclature.fishway_type (no_id, no_code, no_type, no_name) FROM std
 --
 -- TOC entry 8066 (class 0 OID 2558534)
 -- Dependencies: 388
--- Data for Name: gear_characteristic_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: gear_characteristic_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.gear_characteristic_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.gear_characteristic_type (no_id, no_code, no_type, no_name) FROM stdin;
 200	\N	Gear characteristic type	Unknown
 201	\N	Gear characteristic type	Stretched mesh size by the trap net
 202	\N	Gear characteristic type	Sieve area by net
@@ -190,10 +190,10 @@ COPY dbmig_nomenclature.gear_characteristic_type (no_id, no_code, no_type, no_na
 --
 -- TOC entry 8067 (class 0 OID 2558537)
 -- Dependencies: 389
--- Data for Name: gear_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: gear_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.gear_type (no_id, no_code, no_type, no_name, isscfg_code, main_gear, eel_specific_gear) FROM stdin;
+COPY damdb_nomenclature.gear_type (no_id, no_code, no_type, no_name, isscfg_code, main_gear, eel_specific_gear) FROM stdin;
 106	\N	Gear type	Unknown	01.0.0	SURROUNDING NETS	\N
 107	\N	Gear type	Surrounding Nets with Purse Lines (Purse Seines)	01.1.0	SURROUNDING NETS	\N
 108	\N	Gear type	Surrounding Nets with Purse Lines - one boat	01.1.1	SURROUNDING NETS	\N
@@ -274,10 +274,10 @@ COPY dbmig_nomenclature.gear_type (no_id, no_code, no_type, no_name, isscfg_code
 --
 -- TOC entry 8068 (class 0 OID 2558540)
 -- Dependencies: 390
--- Data for Name: habitat_loss_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: habitat_loss_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.habitat_loss_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.habitat_loss_type (no_id, no_code, no_type, no_name) FROM stdin;
 190	\N	Habitat loss type	Unknown
 191	\N	Habitat loss type	Marshland
 192	\N	Habitat loss type	Lake
@@ -290,10 +290,10 @@ COPY dbmig_nomenclature.habitat_loss_type (no_id, no_code, no_type, no_name) FRO
 --
 -- TOC entry 8069 (class 0 OID 2558543)
 -- Dependencies: 391
--- Data for Name: individual_status; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: individual_status; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.individual_status (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.individual_status (no_id, no_code, no_type, no_name) FROM stdin;
 49	\N	Individual status	Alive
 50	\N	Individual status	Dead
 51	\N	Individual status	extracted from the aqu. env.
@@ -305,10 +305,10 @@ COPY dbmig_nomenclature.individual_status (no_id, no_code, no_type, no_name) FRO
 --
 -- TOC entry 8070 (class 0 OID 2558546)
 -- Dependencies: 392
--- Data for Name: migration_direction; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: migration_direction; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.migration_direction (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.migration_direction (no_id, no_code, no_type, no_name) FROM stdin;
 204	\N	Migration direction	Unknown
 205	\N	Migration direction	Upstream migration
 206	\N	Migration direction	Downstream migration
@@ -318,10 +318,10 @@ COPY dbmig_nomenclature.migration_direction (no_id, no_code, no_type, no_name) F
 --
 -- TOC entry 8071 (class 0 OID 2558549)
 -- Dependencies: 393
--- Data for Name: mortality_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: mortality_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.mortality_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.mortality_type (no_id, no_code, no_type, no_name) FROM stdin;
 184	\N	Mortality type	Unknown
 185	\N	Mortality type	Natural
 186	\N	Mortality type	Total anthropogenic mortality
@@ -334,20 +334,20 @@ COPY dbmig_nomenclature.mortality_type (no_id, no_code, no_type, no_name) FROM s
 --
 -- TOC entry 8054 (class 0 OID 2558478)
 -- Dependencies: 372
--- Data for Name: nomenclature; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: nomenclature; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.nomenclature (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.nomenclature (no_id, no_code, no_type, no_name) FROM stdin;
 \.
 
 
 --
 -- TOC entry 8073 (class 0 OID 2558553)
 -- Dependencies: 395
--- Data for Name: observation_origin; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: observation_origin; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.observation_origin (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.observation_origin (no_id, no_code, no_type, no_name) FROM stdin;
 11	\N	Observation origin	Raw data
 12	\N	Observation origin	Modelling result
 \.
@@ -356,10 +356,10 @@ COPY dbmig_nomenclature.observation_origin (no_id, no_code, no_type, no_name) FR
 --
 -- TOC entry 8074 (class 0 OID 2558556)
 -- Dependencies: 396
--- Data for Name: observation_place_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: observation_place_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.observation_place_type (no_id, no_code, no_type, no_name, obs_subtype_name) FROM stdin;
+COPY damdb_nomenclature.observation_place_type (no_id, no_code, no_type, no_name, obs_subtype_name) FROM stdin;
 1	\N	Observation place	Unknown	Unknown
 2	\N	Observation place	Country	Administrative
 3	\N	Observation place	Region	Administrative
@@ -377,10 +377,10 @@ COPY dbmig_nomenclature.observation_place_type (no_id, no_code, no_type, no_name
 --
 -- TOC entry 8075 (class 0 OID 2558559)
 -- Dependencies: 397
--- Data for Name: observation_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: observation_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.observation_type (no_id, no_code, no_type, no_name, obs_type_class_name) FROM stdin;
+COPY damdb_nomenclature.observation_type (no_id, no_code, no_type, no_name, obs_type_class_name) FROM stdin;
 13	\N	Observation Type	Unknown	Unknown
 14	\N	Observation Type	Pression - Impact	Pression - Impact
 15	\N	Observation Type	Habitat loss	Pression - Impact
@@ -404,10 +404,10 @@ COPY dbmig_nomenclature.observation_type (no_id, no_code, no_type, no_name, obs_
 --
 -- TOC entry 8076 (class 0 OID 2558562)
 -- Dependencies: 398
--- Data for Name: obstruction_impact; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: obstruction_impact; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.obstruction_impact (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.obstruction_impact (no_id, no_code, no_type, no_name) FROM stdin;
 287	LI	Obstruction impact	Barrier passable with Limited Impact (source ICE)
 288	SO	Obstruction impact	Partial barrier with Some Impact (source ICE)
 289	MA	Obstruction impact	Partial barrier with Major Impact (source ICE)
@@ -428,10 +428,10 @@ COPY dbmig_nomenclature.obstruction_impact (no_id, no_code, no_type, no_name) FR
 --
 -- TOC entry 8077 (class 0 OID 2558565)
 -- Dependencies: 399
--- Data for Name: obstruction_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: obstruction_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.obstruction_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.obstruction_type (no_id, no_code, no_type, no_name) FROM stdin;
 218	UN	Obstruction type	Unknown
 291	DA	Obstruction_type	Dam
 292	WE	Obstruction_type	Weir
@@ -451,10 +451,10 @@ COPY dbmig_nomenclature.obstruction_type (no_id, no_code, no_type, no_name) FROM
 --
 -- TOC entry 8078 (class 0 OID 2558568)
 -- Dependencies: 400
--- Data for Name: orient_flow; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: orient_flow; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.orient_flow (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.orient_flow (no_id, no_code, no_type, no_name) FROM stdin;
 238	1	orient_flow	[70-90°]
 239	2	orient_flow	[50-70°[
 240	3	orient_flow	[30-50°[
@@ -465,10 +465,10 @@ COPY dbmig_nomenclature.orient_flow (no_id, no_code, no_type, no_name) FROM stdi
 --
 -- TOC entry 8079 (class 0 OID 2558571)
 -- Dependencies: 401
--- Data for Name: period_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: period_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.period_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.period_type (no_id, no_code, no_type, no_name) FROM stdin;
 74	\N	Period type	Unknown
 75	\N	Period type	Daily
 76	\N	Period type	Weekly
@@ -485,10 +485,10 @@ COPY dbmig_nomenclature.period_type (no_id, no_code, no_type, no_name) FROM stdi
 --
 -- TOC entry 8080 (class 0 OID 2558574)
 -- Dependencies: 402
--- Data for Name: predation_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: predation_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.predation_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.predation_type (no_id, no_code, no_type, no_name) FROM stdin;
 221	\N	Predation type	Unknown
 222	\N	Predation type	fishery
 223	\N	Predation type	wildlife
@@ -498,10 +498,10 @@ COPY dbmig_nomenclature.predation_type (no_id, no_code, no_type, no_name) FROM s
 --
 -- TOC entry 8081 (class 0 OID 2558577)
 -- Dependencies: 403
--- Data for Name: predator_subtype; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: predator_subtype; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.predator_subtype (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.predator_subtype (no_id, no_code, no_type, no_name) FROM stdin;
 207	\N	Predator_subtype	Cormorant
 \.
 
@@ -509,10 +509,10 @@ COPY dbmig_nomenclature.predator_subtype (no_id, no_code, no_type, no_name) FROM
 --
 -- TOC entry 8082 (class 0 OID 2558580)
 -- Dependencies: 404
--- Data for Name: scientific_observation_method; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: scientific_observation_method; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.scientific_observation_method (no_id, no_code, no_type, no_name, sc_observation_category, sc_definition) FROM stdin;
+COPY damdb_nomenclature.scientific_observation_method (no_id, no_code, no_type, no_name, sc_observation_category, sc_definition) FROM stdin;
 68	\N	Scientific observation type	Unknown	Gear fishing	\N
 69	\N	Scientific observation type	Unknown	Migration monitoring	\N
 60	NA	Scientific observation type	Unknown	Unknown	Unknown scientific observation of unknown category
@@ -535,10 +535,10 @@ COPY dbmig_nomenclature.scientific_observation_method (no_id, no_code, no_type, 
 --
 -- TOC entry 8083 (class 0 OID 2558585)
 -- Dependencies: 405
--- Data for Name: sex; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: sex; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.sex (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.sex (no_id, no_code, no_type, no_name) FROM stdin;
 180	\N	Sex	Unknown
 181	\N	Sex	male
 182	\N	Sex	female
@@ -549,10 +549,10 @@ COPY dbmig_nomenclature.sex (no_id, no_code, no_type, no_name) FROM stdin;
 --
 -- TOC entry 8056 (class 0 OID 2558489)
 -- Dependencies: 375
--- Data for Name: species; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: species; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.species (no_id, no_code, no_type, no_name, sp_vernacular_name) FROM stdin;
+COPY damdb_nomenclature.species (no_id, no_code, no_type, no_name, sp_vernacular_name) FROM stdin;
 30	\N	Species	Anguilla anguilla	Eel
 \.
 
@@ -560,10 +560,10 @@ COPY dbmig_nomenclature.species (no_id, no_code, no_type, no_name, sp_vernacular
 --
 -- TOC entry 8084 (class 0 OID 2558588)
 -- Dependencies: 406
--- Data for Name: stage; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: stage; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.stage (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.stage (no_id, no_code, no_type, no_name) FROM stdin;
 224	\N	Stage	Unknown
 225	\N	Stage	Glass eel
 226	\N	Stage	Yellow eel
@@ -577,10 +577,10 @@ COPY dbmig_nomenclature.stage (no_id, no_code, no_type, no_name) FROM stdin;
 --
 -- TOC entry 8085 (class 0 OID 2558591)
 -- Dependencies: 407
--- Data for Name: turbine_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: turbine_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.turbine_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.turbine_type (no_id, no_code, no_type, no_name) FROM stdin;
 242	\N	Turbine type	Horizontal axis Kaplan (bulb)
 243	\N	Turbine type	Other (please specify)
 244	\N	Turbine type	Double Francis (spiral case)
@@ -607,10 +607,10 @@ COPY dbmig_nomenclature.turbine_type (no_id, no_code, no_type, no_name) FROM std
 --
 -- TOC entry 8086 (class 0 OID 2558594)
 -- Dependencies: 408
--- Data for Name: type_of_unit; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: type_of_unit; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.type_of_unit (no_id, no_code, no_type, no_name, tu_unit) FROM stdin;
+COPY damdb_nomenclature.type_of_unit (no_id, no_code, no_type, no_name, tu_unit) FROM stdin;
 196	\N	Type of unit	Unknown	Unknown
 197	\N	Type of unit	Area	m2
 198	\N	Type of unit	Linear	m
@@ -621,10 +621,10 @@ COPY dbmig_nomenclature.type_of_unit (no_id, no_code, no_type, no_name, tu_unit)
 --
 -- TOC entry 8057 (class 0 OID 2558492)
 -- Dependencies: 376
--- Data for Name: value_type; Type: TABLE DATA; Schema: dbmig_nomenclature; Owner: postgres
+-- Data for Name: value_type; Type: TABLE DATA; Schema: damdb_nomenclature; Owner: postgres
 --
 
-COPY dbmig_nomenclature.value_type (no_id, no_code, no_type, no_name) FROM stdin;
+COPY damdb_nomenclature.value_type (no_id, no_code, no_type, no_name) FROM stdin;
 54	\N	Value type	Unknown
 55	\N	Value type	Raw data or Individual data
 56	\N	Value type	Mean value
@@ -637,10 +637,10 @@ COPY dbmig_nomenclature.value_type (no_id, no_code, no_type, no_name) FROM stdin
 --
 -- TOC entry 8092 (class 0 OID 0)
 -- Dependencies: 394
--- Name: nomenclature_no_id_seq; Type: SEQUENCE SET; Schema: dbmig_nomenclature; Owner: postgres
+-- Name: nomenclature_no_id_seq; Type: SEQUENCE SET; Schema: damdb_nomenclature; Owner: postgres
 --
 
-SELECT pg_catalog.setval('dbmig_nomenclature.nomenclature_no_id_seq', 303, false);
+SELECT pg_catalog.setval('damdb_nomenclature.nomenclature_no_id_seq', 303, false);
 
 
 -- Completed on 2023-08-01 21:04:19 CEST
