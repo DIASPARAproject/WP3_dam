@@ -6,7 +6,8 @@
 
 
 -- we will separate the dam and the electrofishing db even if they use the same nomenclature as the source.
-
+ALTER TABLE nomenclature.nomenclature 
+	ALTER COLUMN no_code TYPE varchar(3);
 
 ALTER SCHEMA dbmig RENAME TO electrofishing;
 --ALTER SCHEMA dbmig RENAME TO dam; (with manual dump)
@@ -101,7 +102,7 @@ DROP TABLE IF EXISTS nomenclature.ecological_productivity;
 DROP TABLE IF EXISTS nomenclature.ecological_status_class;
 --effort_type REMOVE
 DROP TABLE IF EXISTS nomenclature.effort_type;
---electrofishing_mean OK
+
 --fisher_type REMOVE
 DROP TABLE IF EXISTS nomenclature.fisher_type;
 --fishway_type TODO
@@ -199,7 +200,7 @@ $function$
 -- Drop table
 
 -- DROP TABLE dbmig.observations CASCADE;
-INSERT INTO nomenclature.fishway_type SELECT * FROM nomenclature_eda.fishway_type;
+INSERT INTO nomenclature.species SELECT * FROM nomenclature_eda.fishway_type;
 CREATE TRIGGER tr_fishway_type_insert BEFORE
 INSERT
     ON
@@ -342,10 +343,60 @@ GRANT SELECT ON dam.obstruction TO diaspara_read;
 --decide what to do with po_date_presence_eel_pass
 --move ob_dp_id to obstruction_place
 --add natural obstruction to ot_no_obstruction_type
---physical_obstruction_pass_species TODO
---remove fpi_id
---change op_id name
---translate species
+
+--species TODO
+--Use tr_species_spe
+
+INSERT INTO nomenclature.species
+	SELECT * FROM nomenclature_eda.species;
+
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('SAL','Species','Salmo salar','Atlantic salmon');
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('TRT','Species','Salmo trutta','Sea trout');
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('ALA','Species','Alosa alosa','Twait shad');
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('ALF','Species','Alosa fallax','Allis shad');
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('SLP','Species','Petromyzon marinus','Sea lamprey');
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+	VALUES ('RLP','Species','Lampretra fluviatilis','European river lamprey');
+UPDATE nomenclature.species
+	SET sp_vernacular_name='European eel',no_code='ANG'
+	WHERE no_id=30;
+
+ALTER TABLE nomenclature.species OWNER TO diaspara_admin;
+GRANT SELECT ON nomenclature.species TO diaspara_read;
+
+--Create a fishway table TODO
+--id
+--expertise on weither species can cross the dam
+--when was it built
+--DELETE FROM nomenclature.fishway_type;
+INSERT INTO nomenclature.fishway_type (no_id,no_code,no_type,no_name)
+	SELECT no_id,no_code,no_type,no_name FROM nomenclature_eda.fishway_type;
+ALTER TABLE nomenclature.fishway_type OWNER TO diaspara_admin;
+GRANT SELECT ON nomenclature.fishway_type TO diaspara_read;
+
+-- DROP TABLE montepomi.dbeel_physical_obstruction_pass_species;
+
+CREATE TABLE dam.fishway (
+	fi_ob_id uuid NULL,
+	fi_op_id uuid NULL,
+	fi_id_original varchar(10) NULL,
+	fi_species_id int4 NULL,
+	fi_fishway_id int4 NULL,
+	fi_presence_pass bool NULL,
+	fi_date date NULL,
+	CONSTRAINT fishway_pkey PRIMARY KEY (fi_ob_id, fi_species_id),
+	CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) REFERENCES nomenclature.species(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_fi_fishway_id FOREIGN KEY (fi_fishway_id) REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+ALTER TABLE dam.fishway OWNER TO diaspara_admin;
+GRANT SELECT ON dam.fishway TO diaspara_read;
+
 --physical_obstruction_score_species OK
 --orient_flow OK
 --period_type REMOVE
@@ -354,14 +405,9 @@ DROP TABLE IF EXISTS nomenclature.period_type;
 DROP TABLE IF EXISTS nomenclature.predation_type;
 --predator_subtype REMOVE
 DROP TABLE IF EXISTS nomenclature.predator_subtype;
---scientific_observation_method TODO
---remove migration monitoring
---remove NA
---WH needs to be changed by Standard by foot (and then checked how many pass is done)
---Add electrofishing types for other species if needed
+
 --sex OK
---species TODO
---Use tr_species_spe
+
 --stage OK
 --turbine_type OK
 --type_of_unit REMOVE
@@ -372,18 +418,71 @@ DROP TABLE IF EXISTS nomenclature.value_type;
 --remove hpp_main_grid_or_production
 --see if we keep hpp_presence_of_bar_rack or go for more specific
 --add turbine_type
+DROP TABLE IF EXISTS dam.hpp CASCADE;
+CREATE TABLE dam.hpp (
+	hpp_id uuid NOT NULL,
+	hpp_ob_id uuid NULL,
+	hpp_name text NULL,
+	hpp_presence_bypass bool NULL,
+	hpp_total_flow_bypass numeric NULL,
+	hpp_orient_flow_no_id int4 NULL,
+	hpp_presence_of_bar_rack bool NULL,
+	hpp_bar_rack_space numeric NULL,
+	hpp_surface_bar_rack numeric NULL,
+	hpp_inclination_bar_rack numeric NULL,
+	hpp_presence_bypass_trashrack bool NULL,
+	hpp_nb_trashrack_bypass int4 NULL,
+	hpp_turb_max_flow numeric NULL,
+	hpp_reserved_flow numeric NULL,
+	hpp_flow_trashrack_bypass numeric NULL,
+	hpp_max_power numeric NULL,
+	hpp_nb_turbines int4 NULL,
+	hpp_turbine_type int4 NULL,
+	hpp_orientation_bar_rack numeric NULL,
+	hpp_id_original text NULL,
+	hpp_source text NULL,
+	CONSTRAINT hpp_pkey PRIMARY KEY (hpp_id),
+	CONSTRAINT fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) REFERENCES dam.obstruction(ob_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) REFERENCES nomenclature.orient_flow(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_hpp_turbine_type FOREIGN KEY (hpp_turbine_type) REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
 --dbeel_turbine OK
+
+-- DROP TABLE IF EXISTS dam.turbine;
+
+CREATE TABLE dam.turbine (
+	turb_id uuid NOT NULL,
+	turb_hpp_id uuid NULL,
+	turb_turbine_type_no_id int4 NULL,
+	turb_in_service bool NULL,
+	turb_max_power numeric NULL,
+	turb_min_working_flow numeric NULL,
+	turb_hpp_height numeric NULL,
+	turb_diameter numeric NULL,
+	turb_rotation_speed numeric NULL,
+	turb_nb_blades int4 NULL,
+	turb_max_turbine_flow numeric NULL,
+	turb_description text NULL,
+	CONSTRAINT turbine_pkey PRIMARY KEY (turb_id),
+	CONSTRAINT fk_turb_turbine_type_no_id FOREIGN KEY (turb_turbine_type_no_id) REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) REFERENCES dam.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+  
+  
+  
+  
+ -- Electrofishing
+
 --Create age table TODO
 --Create maturity table TODO
 --Use tr_maturity_mat
---Create a fishway table TODO
---id
---expertise on weither species can cross the dam
---type of fishwat
---when cas it built
-  
-  
-  
-  
-  -- 
-
+--electrofishing_mean OK
+--scientific_observation_method TODO
+--remove migration monitoring
+--remove NA
+--WH needs to be changed by Standard by foot (and then checked how many pass is done)
+--Add electrofishing types for other species if needed
