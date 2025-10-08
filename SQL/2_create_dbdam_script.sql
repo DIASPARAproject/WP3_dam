@@ -91,5 +91,164 @@ UPDATE nomenclature.biological_characteristic_type
   WHERE no_id=46; -- percentage was there an it was wrong
   
   
-
+--control_type REMOVE
+--downstream_mitigation_measure OK
+--ecological_productivity REMOVE
+--ecological_status_clas REMOVE
+--effort_type REMOVE
+--control_type REMOVE
+--downstream_mitigation_measure OK
+--ecological_productivity REMOVE
+--ecological_status_clas REMOVE
+--effort_type REMOVE
+--electrofishing_mean OK
+--fisher_type REMOVE
+--fishway_type TODO
+--Adapt with descriptions and definitions
+--gear_characteristic_type REMOVE
+--gear_type OK
+--habitat_loss_type REMOVE
+--individual_status REMOVE
+--migration_direction TODO
+--Add to bypass
+--Add to fishway
+--mortality_type REMOVE
+--nomenclature OK
+--observation_origin REMOVE
+--observation_place_type REMOVE
+--observation_type REMOVE
+--keep obstruction for dam
+--remove rest
+--obstruction_impact REMOVE
+--obstruction_type TODO
+--remove chemical obstruction
+--obstruction_place TODO
+--remove op_gis_systemname
+--remove op_gis_layername
+--remove op_gis_location
+--remove op_no_observationplacetype
+--physical_obstruction TODO
+--remove ob_no_origin
+--remove ob_no_type
+--remove ob_no_period
+--remove ot_obstruction_number
+--remove ot_no_mortality_type
+--remove ot_no_mortality
+--remove po_no_obstruction_passability (because it's a score)
+--remove po_presence_eel_pass
+--remove po_method_perm_ev
+--decide what to do with po_date_presence_eel_pass
+--move ob_dp_id to obstruction_place
+--add natural obstruction to ot_no_obstruction_type
+--physical_obstruction_pass_species TODO
+--remove fpi_id
+--change op_id name
+--translate species
+--physical_obstruction_score_species REMOVE
+--orient_flow OK
+--period_type REMOVE
+--predation_type REMOVE
+--predator_subtype REMOVE
+--scientific_observation_method TODO
+--remove migration monitoring
+--remove NA
+--WH needs to be changed by Standard by foot (and then checked how many pass is done)
+--Add electrofishing types for other species if needed
+--sex OK
+--species TODO
+--Use tr_species_spe
+--stage OK
+--turbine_type OK
+--type_of_unit REMOVE
+--value_type REMOVE
+--dbeel_hpp TODO
+--remove hpp_main_grid_or_production
+--see if we keep hpp_presence_of_bar_rack or go for more specific
+--add turbine_type
+--dbeel_turbine OK
+--Create age table TODO
+--Create maturity table TODO
+--Use tr_maturity_mat
+--Create a fishway table TODO
+--id
+--expertise on weither species can cross the dam
+--type of fishwat
+--when cas it builtelectrofishing_mean OK
+--fisher_type REMOVE
+--fishway_type TODO
+--Adapt with descriptions and definitions
+--gear_characteristic_type REMOVE
+--gear_type OK
+--habitat_loss_type REMOVE
+--individual_status REMOVE
+--migration_direction TODO
+--Add to bypass
+--Add to fishway
+--mortality_type REMOVE
+--nomenclature OK
+--observation_origin REMOVE
+--observation_place_type REMOVE
+--observation_type REMOVE
+--keep obstruction for dam
+--remove rest
+--obstruction_impact REMOVE
+--obstruction_type TODO
+--remove chemical obstruction
+--obstruction_place TODO
+--remove op_gis_systemname
+--remove op_gis_layername
+--remove op_gis_location
+--remove op_no_observationplacetype
+--physical_obstruction TODO
+--remove ob_no_origin
+--remove ob_no_type
+--remove ob_no_period
+--remove ot_obstruction_number
+--remove ot_no_mortality_type
+--remove ot_no_mortality
+--remove po_no_obstruction_passability (because it's a score)
+--remove po_presence_eel_pass
+--remove po_method_perm_ev
+--decide what to do with po_date_presence_eel_pass
+--move ob_dp_id to obstruction_place
+--add natural obstruction to ot_no_obstruction_type
+--physical_obstruction_pass_species TODO
+--remove fpi_id
+--change op_id name
+--translate species
+--physical_obstruction_score_species REMOVE
+--orient_flow OK
+--period_type REMOVE
+--predation_type REMOVE
+--predator_subtype REMOVE
+--scientific_observation_method TODO
+--remove migration monitoring
+--remove NA
+--WH needs to be changed by Standard by foot (and then checked how many pass is done)
+--Add electrofishing types for other species if needed
+--sex OK
+--species TODO
+--Use tr_species_spe
+--stage OK
+--turbine_type OK
+--type_of_unit REMOVE
+--value_type REMOVE
+--dbeel_hpp TODO
+--remove hpp_main_grid_or_production
+--see if we keep hpp_presence_of_bar_rack or go for more specific
+--add turbine_type
+--dbeel_turbine OK
+--Create age table TODO
+--Create maturity table TODO
+--Use tr_maturity_mat
+--Create a fishway table TODO
+--id
+--expertise on weither species can cross the dam
+--type of fishway
+--when was it built ?
+  
+  
+  
+  
+  -- 
 
