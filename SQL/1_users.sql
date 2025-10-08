@@ -25,3 +25,4 @@ GRANT CONNECT ON DATABASE damdb TO diaspara_read;
 ALTER DATABASE damdb OWNER TO diaspara_admin;
 
 
+
