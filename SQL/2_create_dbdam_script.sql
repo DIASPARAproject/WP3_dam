@@ -344,7 +344,7 @@ GRANT SELECT ON dam.obstruction TO diaspara_read;
 --move ob_dp_id to obstruction_place
 --add natural obstruction to ot_no_obstruction_type
 
---species TODO
+--species 
 --Use tr_species_spe
 
 INSERT INTO nomenclature.species
