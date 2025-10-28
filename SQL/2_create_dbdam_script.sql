@@ -32,6 +32,8 @@ GRANT USAGE ON SCHEMA dam TO diaspara_read;
 GRANT USAGE ON SCHEMA electrofishing TO diaspara_read;
 
 
+-- Note the foreign data wrappers are also in WP3_mig_db/0_foreign_data_wrapper.sql
+
 CREATE SERVER eda_data_wrapper
   FOREIGN DATA WRAPPER postgres_fdw
   OPTIONS (host 'localhost', port '5432', dbname 'eda2.3');
@@ -51,6 +53,14 @@ CREATE USER MAPPING FOR USER
 CREATE USER MAPPING FOR USER
   SERVER wgnas_data_wrapper
   OPTIONS (user 'postgres', password 'postgres');
+
+CREATE SCHEMA montepomi;
+
+
+IMPORT FOREIGN SCHEMA montepomi    
+    FROM SERVER eda_data_wrapper
+    INTO montepomi;
+
 
 
 -- TODO put back these functions when done
@@ -291,7 +301,11 @@ INSERT INTO nomenclature.event_change (no_code, no_type, no_name)
 		'PE',
 		'Event change',
 		'Partial erasement');
-
+INSERT INTO nomenclature.event_change (no_code, no_type, no_name)
+  VALUES (
+    'FW',
+    'Event change',
+    'Fishway built or changed');
 -- Table Triggers
 
 CREATE TRIGGER tr_event_change_insert BEFORE
@@ -302,6 +316,24 @@ CREATE TRIGGER tr_event_change_update BEFORE
 UPDATE
     ON
     nomenclature.event_change FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+
+DROP TABLE dam.establishment CASCADE;
+
+
+-- data provider can reference EDMO if exists otherwise not
+DROP TABLE IF EXISTS dam.data_provider CASCADE;
+CREATE TABLE dam.data_provider (
+  dp_id serial4 NOT NULL,
+  dp_name varchar(60) NULL,
+  dp_edmo_key int4 NULL,
+  CONSTRAINT fk_dp_edmo_key FOREIGN KEY (dp_edmo_key) 
+  REFERENCES REF."EDMO"("Key") ON UPDATE CASCADE ON DELETE RESTRICT,
+  dp_establishment_name TEXT,
+  CONSTRAINT data_provider_pkey PRIMARY KEY (dp_id)  
+);
+
+
+
 
 CREATE TABLE dam.obstruction (
 	ob_id uuid DEFAULT uuid_generate_v4() NOT NULL,
@@ -365,6 +397,8 @@ INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
 UPDATE nomenclature.species
 	SET sp_vernacular_name='European eel',no_code='ANG'
 	WHERE no_id=30;
+INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
+  VALUES ('CIV','Species','Anguilla_anguilla (glass eel)','European eel (glass eel stage)')
 
 ALTER TABLE nomenclature.species OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.species TO diaspara_read;
@@ -414,6 +448,10 @@ DROP TABLE IF EXISTS nomenclature.predator_subtype;
 DROP TABLE IF EXISTS nomenclature.type_of_unit;
 --value_type REMOVE
 DROP TABLE IF EXISTS nomenclature.value_type;
+
+INSERT INTO nomenclature.orient_flow 
+SELECT * FROM nomenclature_eda.orient_flow;--4
+
 --dbeel_hpp TODO
 --remove hpp_main_grid_or_production
 --see if we keep hpp_presence_of_bar_rack or go for more specific
@@ -469,7 +507,7 @@ CREATE TABLE dam.turbine (
 	CONSTRAINT fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) REFERENCES dam.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-
+INSERT INTO nomenclature.turbine_type SELECT * FROM nomenclature_eda.turbine_type; --20
 
   
   
