@@ -3,7 +3,8 @@ CREATE SCHEMA dam_france;
 
 -- dam_france.physical_obstruction definition
 
-
+GRANT SELECT ON SCHEMA dam_france TO diaspara_read;
+ALTER SCHEMA dam_france OWNER TO diaspara_admin;
 
 INSERT INTO dam.data_provider
 (dp_id, dp_name, dp_edmo_key, dp_establishment_name)
@@ -49,6 +50,11 @@ the_geom AS geom
 FROM
 montepomi.dbeel_obstruction_place; --93359
 
+GRANT SELECT ON TABLE dam_france.obstruction_place TO diaspara_read;
+ALTER TABLE dam_france.obstruction_place OWNER TO diaspara_admin;
+
+
+
 -- DROP TABLE dam_france.physical_obstruction;
 
 CREATE TABLE dam_france.obstruction(  
@@ -63,7 +69,8 @@ CREATE TABLE dam_france.obstruction(
 )
 INHERITS (dam.obstruction);
 
-
+GRANT SELECT ON TABLE dam_france.obstruction TO diaspara_read;
+ALTER TABLE dam_france.obstruction OWNER TO diaspara_admin;
 --SELECT DISTINCT ouv_type_evt FROM montepomi.dbeel_physical_obstruction 
 
 
@@ -161,7 +168,8 @@ hpp_id_original,
 hpp_source 
 FROM montepomi.dbeel_hpp ; -- 6909
 
-
+GRANT SELECT ON TABLE dam_france.hpp TO diaspara_read;
+ALTER TABLE dam_france.hpp OWNER TO diaspara_admin;
 -- DROP TABLE dam_france.physical_obstruction_pass_species;
 
 CREATE TABLE dam_france.fishway (
@@ -210,7 +218,8 @@ CREATE TABLE dam_france.bypass (
 )
 INHERITS (dam.bypass);
 
-
+GRANT SELECT ON TABLE dam_france.bypass TO diaspara_read;
+ALTER TABLE dam_france.bypass OWNER TO diaspara_admin;
 -- dam_france.turbine definition
 
 -- Drop table
@@ -253,24 +262,13 @@ turb_description
 FROM montepomi.dbeel_turbine ; --1139
 
 
+GRANT SELECT ON TABLE dam_france.turbine TO diaspara_read;
+ALTER TABLE dam_france.turbine OWNER TO diaspara_admin;
 
 
 
 
 
-
-
-SELECT op_id,
- op_gis_systemname,
-  op_gis_layername, 
-  op_gislocation,
-   op_placename, 
-   op_no_observationplacetype, 
-   op_op_id, 
-   the_geom, 
-   id_original,
-    country
-FROM dam_france.obstruction_place;
 
 
 
