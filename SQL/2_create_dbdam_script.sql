@@ -511,16 +511,6 @@ INSERT INTO nomenclature.turbine_type SELECT * FROM nomenclature_eda.turbine_typ
 
   
   
-  
-  
- -- Electrofishing
+ 
 
---Create age table TODO
---Create maturity table TODO
---Use tr_maturity_mat
---electrofishing_mean OK
---scientific_observation_method TODO
---remove migration monitoring
---remove NA
---WH needs to be changed by Standard by foot (and then checked how many pass is done)
---Add electrofishing types for other species if needed
+

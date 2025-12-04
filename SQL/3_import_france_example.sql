@@ -204,7 +204,8 @@ po_presence_pass  AS fi_presence_pass,
 date_passe AS fi_date
 FROM montepomi.dbeel_physical_obstruction_pass_species; --286255
 
-
+GRANT SELECT ON TABLE dam_france.fishway TO diaspara_read;
+ALTER TABLE dam_france.fishway OWNER TO diaspara_admin;
 
 -- dam_france.bypass definition
 
