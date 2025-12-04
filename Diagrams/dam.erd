@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="dam.erd">
+	<entities>
+		<data-source id="postgres-jdbc-199c2e130f2-7c5660f02f0e9bf2">
+			<entity id="1" name="bypass" fq-name="dam.bypass" order="0" border-width="3" x="279" y="40">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="2" name="data_provider" fq-name="dam.data_provider" order="1" x="612" y="98">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="3" name="fishway" fq-name="dam.fishway" order="2" x="279" y="712">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="4" name="hpp" fq-name="dam.hpp" order="3" x="520" y="260">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="5" name="obstruction" fq-name="dam.obstruction" order="4" x="802" y="260">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="6" name="obstruction_place" fq-name="dam.obstruction_place" order="5" x="1074" y="302">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="7" name="turbine" fq-name="dam.turbine" order="6" x="279" y="355">
+				<path name="dam"/>
+				<path name="diaspara"/>
+			</entity>
+			<entity id="8" name="fishway" fq-name="dam_france.fishway" order="7" color-bg="204,192,184" x="40" y="786">
+				<path name="dam_france"/>
+				<path name="diaspara"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="dam_france.fishway-&gt;dam.fishway" fq-name="dam_france.fishway.&quot;dam_france.fishway-&gt;dam.fishway&quot;" type="inheritance" pk-ref="3" fk-ref="8"/>
+		<relation name="fk_turb_hpp_id" fq-name="dam.turbine.fk_turb_hpp_id" type="fk" pk-ref="4" fk-ref="7"/>
+		<relation name="fk_hpp_ob_id" fq-name="dam.hpp.fk_hpp_ob_id" type="fk" pk-ref="5" fk-ref="4"/>
+		<relation name="fk_ob_op_id" fq-name="dam.obstruction.fk_ob_op_id" type="fk" pk-ref="6" fk-ref="5"/>
+		<relation name="fk_op_op_id" fq-name="dam.obstruction_place.fk_op_op_id" type="fk" pk-ref="6" fk-ref="6">
+			<bend type="rel" x="1226" y="423"/>
+			<bend type="rel" x="1257" y="408"/>
+			<bend type="rel" x="1257" y="378"/>
+			<bend type="rel" x="1226" y="362"/>
+		</relation>
+	</relations>
+</diagram>
