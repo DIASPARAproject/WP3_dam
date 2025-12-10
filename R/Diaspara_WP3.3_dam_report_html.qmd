@@ -122,13 +122,12 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-## Inherited tables
+**Inherited tables**
 
 To handle the updates of data, the database uses inheritance. The data are entered
 in the country schema, in this schema all tables inherit from the tables in the main
-dam schema (Figure @fig-dam_db_opin). When updates are collected, one can simply
-upload all tables again in the country schema. Other columns can be added at the national 
-level to collect additional information. 
+dam schema (@fig-dam_db_opin). When updates are collected, one can simply
+upload all tables again in the country schema. Other columns can be added at the national R/Diaspara_WP3.3_dam_report_html.qmdlevel to collect additional information. 
 
 ```{mermaid}
 %%| label: fig-dam_db_opin
@@ -302,12 +301,17 @@ l
 
 # Physical obstruction
 
-This table ( Table @tbl-obstruction) is linked to the physical location of the dam.
+This table (@tbl-obstruction) is linked to the physical location of the dam.
 It can be summarized as following :
--   Physical obstruction has date of start and end
--   The changes ara linked to Events (Erasement, change of height change dam period)
--   There might be several fishway types
--   It includes information on downstream water depth
+
+- Physical obstruction has date of start and end
+
+- The changes ara linked to Events (Erasement, change of height change dam period)
+
+- There might be several fishway types
+
+- It includes information on downstream water depth
+
 
 
 ```{mermaid}
@@ -375,6 +379,8 @@ load(file="data/presentation_dam_ob.Rdata")
 
 # Assessment of passability
 
+The table (@tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad (@fig-dam_db_fp).
+
 ```{mermaid}
 %%| label: fig-dam_db_fp
 %%| fig-cap: Simplied structure of the dam database, assessment of passability 
@@ -389,7 +395,7 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-The table (Table @tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad.
+
 
 ```{r}
 #| label: tbl-fishway
@@ -446,7 +452,7 @@ load(file="data/presentation_dam_fi.Rdata")
 
 # Hydro Power Plants
 
-The elements in hydro power plants  (Figure @fig-dam_db_hp, Table @tbl-hpp)  are necessary to make a calculation of the mortality
+The elements in hydro power plants  (@fig-dam_db_hp, @tbl-hpp)  are necessary to make a calculation of the mortality
 at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration.
 
 ```{mermaid}

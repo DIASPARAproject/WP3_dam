@@ -22,6 +22,7 @@ execute:
 filters:
   - include-code-files
 reference-location: document
+bibliography: diaspara_dam.bib
 editor: 
   markdown: 
     wrap: 72
@@ -91,6 +92,8 @@ con_diaspara_admin <- dbConnect(Postgres(),
                                 password = cred$passworddistant)
 ```
 
+foreword : this document is best viewed on the [diaspara website]() ) in html
+
 
 # DAM DATABASE
 
@@ -107,17 +110,17 @@ The code of the table in the national database is provided.
 
 # Obstruction place
 
-Each dam is characterized by a location which forms the top table (obstruction_place) (Figure @fig-dam_db_op). 
+Each dam is characterized by a location which forms the top table (obstruction_place) (@fig-dam_db_op). 
 For some complex river systems (braided rivers, branches ...) it is sometimes necessary to link the dams
 together, identifying the main dam over which the cumulated height of dams will be calculated.
 
-![Obstruction place](images/obstruction_place.png){#fig-dam_db_op fig-alt="The location of the table obstruction place within a MPD diagram" .lightbox}
+![Obstruction place](images/obstruction_place.png){#fig-dam_db_op fig-alt="The location of the table obstruction place within a MPD diagram" .lightbox width=80%}
 
-## Inherited tables
+**Inherited tables**
 
 To handle the updates of data, the database uses inheritance. The data are entered
 in the country schema, in this schema all tables inherit from the tables in the main
-dam schema (Figure @fig-dam_db_opin). When updates are collected, one can simply
+dam schema (@fig-dam_db_opin). When updates are collected, one can simply
 upload all tables again in the country schema. Other columns can be added at the national 
 level to collect additional information. 
 
@@ -161,19 +164,23 @@ knitr::kable() |>
 kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 ```
 
-![Map of a subset of dams in France](images/fig-obstruction_place.png){fig-alt="A screenshot of the leaflet showing in html report" #fig-obstruction_place}
+![Map of a subset of dams in France](images/fig-obstruction_place.png){fig-alt="A screenshot of the leaflet showing in html report" #fig-obstruction_place  width=80%}
 
-# DAM DATABASE : Physical obstruction
+# Physical obstruction
 
 
-This table (Table @tbl-obstruction, Figure @fig-physical_obstruction) is linked to the physical location of the dam.
+This table (@tbl-obstruction, @fig-physical_obstruction) is linked to the physical location of the dam.
 It can be summarized as following :
--   Physical obstruction has date of start and end
--   The changes ara linked to Events (Erasement, change of height change dam period)
--   There might be several fishway types
--   It includes information on downstream water depth
 
-![Simplified structure of the dam database, the physical obstruction](images/fig-physical_obstruction.png){fig-alt="Diagram showing the physical obstruction table relation with others" #fig-physical_obstruction}
+- Physical obstruction has date of start and end
+
+- The changes ara linked to Events (Erasement, change of height change dam period)
+
+- There might be several fishway types
+
+- It includes information on downstream water depth
+
+![Simplified structure of the dam database, the physical obstruction](images/fig-physical_obstruction.png){fig-alt="Diagram showing the physical obstruction table relation with others" #fig-physical_obstruction  width=80%}
 
 ```{r}
 #| label: tbl-obstruction
@@ -198,10 +205,10 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Assessment of passability
 
-![Simplied structure of the dam database, assessment of passability](images/fig-dam_db_fp.png){fig-alt="Diagram showing how the passability table relates to other" #fig-dam_db_fp}
+![Simplied structure of the dam database, assessment of passability](images/fig-dam_db_fp.png){fig-alt="Diagram showing how the passability table relates to other" #fig-dam_db_fp  width=80%}
 
 
-The table (Table @tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad.
+The table (@tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad for Shad (@fig-dam_db_fp)..
 
 ```{r}
 #| label: tbl-fishway
@@ -232,10 +239,10 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Hydro Power Plants
 
-The elements in hydro power plants (Figure @fig-dam_db_hp, Table @tbl-hpp) are necessary to make a calculation of the mortality
+The elements in hydro power plants (@fig-dam_db_hp, @tbl-hpp) are necessary to make a calculation of the mortality
 at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration.
 
-![Simplied structure of the dam database, hydro power plants](images/fig-dam_db_hp.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_hp}
+![Simplied structure of the dam database, hydro power plants](images/fig-dam_db_hp.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_hp  width=80%}
 
 
 
@@ -266,7 +273,7 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 # Turbines
 
 
-![Simplied structure of the dam database, Turbine table](images/fig-dam_db_tu.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_tu}
+![Simplied structure of the dam database, Turbine table](images/fig-dam_db_tu.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_tu  width=80%}
 
 
 
