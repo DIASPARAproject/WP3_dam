@@ -1,33 +1,32 @@
 ---
-title-block: false
+title: "Dam database"
+subtitle: "DIASPARA WP3.3 pre-release"
+author: "Briand Cédric, Oliviero Jules, Helminen Jani"
 date-format: "DD-MM-YYYY"
-description: "Dam database"
-number-sections: true
-format: 
-  pdf:
-    documentclass : report
-    include-in-header:  
-      - text: |
-            \usepackage{tikz}
-    include-before-body: dam_header.tex
-    toc: true
-    toc-depth: 3
-    toc-title: Contents
-    number-sections: true
-    colorlinks: true    
-    use-rsvg-convert: false
-    pdf-engine-opts: ["-shell-escape"]
+description: "Structure and examples for the dam database"
+title-block-banner: "images/diaspara_bandeau.png"
+title-block-banner-color: "white"
+format:
+ html:
+  self-contained: true
+  theme: styles.scss
+  smooth-scroll: true
+  fontcolor: black
+  toc: true
+  toc-location: left
+  toc-title: Contents
+  toc-depth: 3
 execute: 
- keep-md: false
+ keep-md: true
 filters:
   - include-code-files
 reference-location: document
+include-after-body: "footer.html"
+bibliography: diaspara_dam.bib
 editor: 
   markdown: 
     wrap: 72
 ---
-
-
 
 ```{r init}
 #| echo: FALSE
@@ -44,6 +43,7 @@ setwd("C:/workspace/DIASPARA_WP3_dam/R")
 datawd <- "C:/Users/cedric.briand/OneDrive - EPTB Vilaine/Projets/DIASPARA/"
 }
 source("utilities/load_library.R")
+
 load_library("tidyverse")
 load_library("knitr")
 load_library("kableExtra")
@@ -59,6 +59,15 @@ load_library("sf")
 load_library("janitor") #
 load_library("htmltools") 
 load_library("leaflet")
+load_library("flextable")
+load_library("ftExtra")
+# set_flextable_defaults(
+#   font.size = 8.5, font.family = "Calibri",
+#   font.color = "black",
+#   table.layout = "autofit",
+#   border.color = "black",
+#   padding.top = 3, padding.bottom = 3,
+#   padding.left = 4, padding.right = 4)
 cred <- read_yaml("../credentials.yml")
 # con_diaspara <- dbConnect(Postgres(), 
 #                            dbname = cred$dbnamehydro,
@@ -72,37 +81,35 @@ con_diaspara <- dbConnect(Postgres(),
                           port = cred$port,
                           user = cred$userdiaspara,
                           password = cred$passworddiaspara)
-
+con_diaspara_admin <- dbConnect(Postgres(), 
+                                dbname = cred$dbnamediaspara,
+                                host = cred$hostdistant,
+                                port = cred$port,
+                                user = cred$userdistant,
+                                password = cred$passworddistant)
 ```
 
 # DAM DATABASE
 
-::::: columns
-::: {.column width="50%"}
+The dam database has been developed during the (SUDOANG project)[https://sudoang.eu/en]. 
+It has been further modified to handle multiple species and
+account for both salmon and eel mortality during the downstream migration.
+At its core stands the DBeel database. This database was initially developed during 
+the POSE project [@walker_pilot_2011] to handle all threats
+for eel, the DBeel database was used and extended in SUDOANG. This database makes an
+extensive use of inheritance in POSTGRES to create a consistent database.
+Here it has been simplified removing elements that were judged not necessary in the
+database structure to answer the core of the question.
+The code of the table in the national database is provided.
+
+# Obstruction place
+
+Each dam is characterized by a location which forms the top table (obstruction_place) (@fig-dam_db_op). 
+For some complex river systems (braided rivers, branches ...) it is sometimes necessary to link the dams
+together, identifying the main dam over which the cumulated height of dams will be calculated.
+
 ```{mermaid}
-%%| fig-cap: Simplied structure of the dam database
-flowchart TB
-    A([Obstruction place]):::table
-    %% Short Path
-    A --> B([Obstruction]):::table
-    B -->|Upstream| F([fish passage]):::table
-    B -->|Downstream| C([Hydro Power Plant]):::table
-    C --> D([Turbine]):::table    
-    classDef table fill:#CD88
-    classDef main fill:#268073,color:white
-```
-:::
-
-::: {.column width="50%"}
-![](images/dam_spain.jpg)
-:::
-:::::
-
-## DAM DATABASE : Obstruction place
-
-::::: columns
-::: {.column width="50%"}
-```{mermaid}
+%%| label: fig-dam_db_op
 %%| fig-cap: Simplied structure of the dam database
 flowchart TB
     A([Obstruction place]):::main
@@ -114,16 +121,18 @@ flowchart TB
     classDef table fill:#CD88
     classDef main fill:#268073,color:white
 ```
-:::
 
-::: {.column width="50%"}
--   Obstruction place is a point on the map
--   It has a hierarchy (dam related to other dams in braided network)
--   It belongs to a country (by inheritance), so dam data are filled in and replaced at the national level
--   Class following AMBER + sudoang
+## Inherited tables
+
+To handle the updates of data, the database uses inheritance. The data are entered
+in the country schema, in this schema all tables inherit from the tables in the main
+dam schema (Figure @fig-dam_db_opin). When updates are collected, one can simply
+upload all tables again in the country schema. Other columns can be added at the national 
+level to collect additional information. 
 
 ```{mermaid}
-
+%%| label: fig-dam_db_opin
+%%| fig-cap: Inheritance in obstruction places tables
 flowchart TB
     A([Obstruction place]):::table
     %% Short Path
@@ -133,10 +142,30 @@ flowchart TB
     classDef table fill:#CD88
     classDef main fill:#268073,color:white
 ```
-:::
-:::::
 
-## DAM DATABASE : Obstruction place
+The data reporters must be reported in EDMO (European Directory of Marine Organisations) (Table @tbl-icesEDMO).
+
+```{r}
+#| label: tbl-icesEDMO
+#| echo: TRUE
+#| eval: TRUE
+#| warning: FALSE
+#| message: FALSE
+#| code-fold: TRUE
+#| code-summary: Code to show EDMO.
+#| tbl-cap: European Directory of Marine Organisations (EDMO)
+
+
+EDMO <- getCodeList("EDMO")|>
+slice_head(n=10)  |>
+flextable() |>
+  bold(bold = TRUE, part = "header") |>
+  autofit() |>
+  theme_booktabs(x, bold_header = FALSE) 
+EDMO
+```
+
+The obstruction place table is illustrated in Table @tbl-obstruction_place.
 
 ```{r}
 #| label: tbl-obstruction_place
@@ -190,7 +219,6 @@ load(file="data/presentation_dam_op.Rdata")
 
 ```
 
-## DAM DATABASE : Obstruction place
 
 ```{r}
 #| label: fig-obstruction_place
@@ -271,12 +299,20 @@ l
 
 ```
 
-## DAM DATABASE : Physical obstruction
 
-::::: columns
-::: {.column width="50%"}
+# Physical obstruction
+
+This table ( Table @tbl-obstruction) is linked to the physical location of the dam.
+It can be summarized as following :
+-   Physical obstruction has date of start and end
+-   The changes ara linked to Events (Erasement, change of height change dam period)
+-   There might be several fishway types
+-   It includes information on downstream water depth
+
+
 ```{mermaid}
-%%| fig-cap: Simplied structure of the dam database
+%%| label: fig-physical_obstruction
+%%| fig-cap: Simplified structure of the dam database, the physical obstruction 
 flowchart TB
     A([Obstruction place]):::table
     %% Short Path
@@ -287,17 +323,7 @@ flowchart TB
     classDef table fill:#CD88
     classDef main fill:#268073,color:white
 ```
-:::
 
-::: {.column width="50%"}
--   Physical obstruction has date of start and end
--   Events (Erasement, change of height change dam period)
--   Fishway types
--   Downstream water depth
-:::
-:::::
-
-## DAM DATABASE : Physical obstruction
 
 ```{r}
 #| label: tbl-obstruction
@@ -347,10 +373,11 @@ load(file="data/presentation_dam_ob.Rdata")
 
 ```
 
-## DAM DATABASE : assessment of passability
+# Assessment of passability
 
 ```{mermaid}
-%%| fig-cap: Simplied structure of the dam database
+%%| label: fig-dam_db_fp
+%%| fig-cap: Simplied structure of the dam database, assessment of passability 
 flowchart TB
     A([Obstruction place]):::table
     %% Short Path
@@ -362,7 +389,7 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-## DAM DATABASE : assessment of passability
+The table (Table @tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad.
 
 ```{r}
 #| label: tbl-fishway
@@ -415,13 +442,16 @@ load(file="data/presentation_dam_fi.Rdata")
     "))
 
   )
-
 ```
 
-## DAM DATABASE : Hydro Power Plants
+# Hydro Power Plants
+
+The elements in hydro power plants  (Figure @fig-dam_db_hp, Table @tbl-hpp)  are necessary to make a calculation of the mortality
+at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration.
 
 ```{mermaid}
-%%| fig-cap: Simplied structure of the dam database
+%%| label: fig-dam_db_hp
+%%| fig-cap: Simplied structure of the dam database, hydro power plants
 flowchart TB
     A([Obstruction place]):::table
     %% Short Path
@@ -433,7 +463,6 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-## DAM DATABASE : Hydro Power
 
 ```{r}
 #| label: tbl-hpp
@@ -483,12 +512,12 @@ load(file="data/presentation_dam_hpp.Rdata")
     "))
 
   )
-
 ```
 
-## DAM DATABASE : Turbines
+# Turbines
 
 ```{mermaid}
+%%| label: fig-dam_db_tu
 %%| fig-cap: Simplied structure of the dam database
 flowchart TB
     A([Obstruction place]):::table
@@ -501,25 +530,24 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-## DAM DATABASE : Turbines
 
-::::: columns
-::: {.column width="50%"}
+
 ```{r}
 #| label: tbl-turbines
 #| echo: FALSE
 #| eval: TRUE
 #| warning: FALSE
 #| html-table-processing: none
-#| tbl-cap: Hydropower plant table
+#| tbl-cap: Turbine table
 
 
- dam_turb <-dbGetQuery(con_diaspara, "SELECT 
- *
-  FROM dam_france.turbine  
-  limit 100;")
 
- save(dam_turb, file="data/presentation_dam_turb.Rdata")
+#  dam_turb <-dbGetQuery(con_diaspara, "SELECT 
+#  *
+#   FROM dam_france.turbine  
+#   limit 100;")
+
+#  save(dam_turb, file="data/presentation_dam_turb.Rdata")
 load(file="data/presentation_dam_turb.Rdata")
 
  dam_turb |> 
@@ -553,12 +581,8 @@ load(file="data/presentation_dam_turb.Rdata")
     "))
 
   )
-
 ```
-:::
 
-::: {.column width="50%"}
-<br> <br>
 
 ```{r}
 #| label: tbl-turbines_type
@@ -566,14 +590,14 @@ load(file="data/presentation_dam_turb.Rdata")
 #| eval: TRUE
 #| warning: FALSE
 #| html-table-processing: none
-#| tbl-cap: Hydropower plant table
+#| tbl-cap: Turbine type table
 
 
- turb_type <-dbGetQuery(con_diaspara, "SELECT 
- *
-  FROM nomenclature.turbine_type;")
+#  turb_type <-dbGetQuery(con_diaspara, "SELECT 
+#  *
+#   FROM nomenclature.turbine_type;")
 
- save(turb_type, file="data/presentation_turb_type.Rdata")
+#  save(turb_type, file="data/presentation_turb_type.Rdata")
 load(file="data/presentation_turb_type.Rdata")
 
  turb_type |> 
@@ -607,7 +631,124 @@ load(file="data/presentation_turb_type.Rdata")
     "))
 
   )
+```
+
+# Annex 1 : sql code users
+
+<details>
+
+<summary>SQL code to create user rights </summary>
+
+``` {.sql include="../SQL/1_users.sql"}
+```
+
+</details>
+
+
+
+
+
+
+# Annex 2 : Nomenclature tables
+
+The nomenclature has been adapted to the DIASPARA project using the vocab in
+stockDB.
+
+
+<details>
+
+<summary>SQL code to create nomenclature </summary>
+
+``` {.sql include="../SQL/2_nomenclature_structure.sql"}
+```
+
+</details>
+
+
+<details>
+
+<summary>Data in nomenclature </summary>
+
+``` {.sql include="../SQL/3_nomenclature_data.sql"}
+```
+
+</details>
+
+```{r}
+#| label: nomenclature
+#| echo: FALSE
+#| eval: TRUE
+#| warning: FALSE
+#| results: 'asis'
+
+tables <- dbGetQuery(con_diaspara_admin,
+"SELECT * FROM information_schema.tables 
+WHERE table_schema = 'nomenclature'")$table_name
+tables <- tables[-match("nomenclature",tables)]
+
+for (tt in tables){
+  tab <- dbGetQuery(con_diaspara, paste0("SELECT * FROM nomenclature.",tt))
+  purrr::map_chr(
+    .x = list(tab),  
+    function(tab){
+  knitr::knit_child(input = "Diaspara_WP3.3_dam_report_flextable_child_loop.Rmd", envir = environment(), quiet = TRUE)
+    }) |> cat(sep = '\n')
+}
+
+
 
 ```
-:::
-:::::
+
+# Annex 3 : Dam tables
+
+The dam db was created from the dbeel using the following script.
+
+<details>
+
+<summary>SQL code to transfert from the DBEEL </summary>
+
+``` {.sql include="../SQL/5_transfer_dbeel_dam_script.sql"}
+```
+
+</details>
+
+The postgreSQL code for creating the table is as following
+
+<details>
+
+<summary>SQL code to create dam structure </summary>
+
+``` {.sql include="../SQL/4_dam_structure.sql"}
+```
+
+</details>
+
+
+
+# Annex 4 : Country dam table example
+
+<details>
+
+<summary>SQL code to create france schema </summary>
+
+``` {.sql include="../SQL/6_france_schema.sql"}
+```
+
+</details>
+
+<details>
+
+<summary>SQL code to import france </summary>
+
+``` {.sql include="../SQL/7_import_france_example.sql"}
+```
+
+</details>
+
+# Annex 5 : Database ER diagram
+
+
+![Entity Relationship database dam](images/ER_diagram.png){#fig-erd fig-alt="An entity relationship diagram for the dam database"}
+
+
+

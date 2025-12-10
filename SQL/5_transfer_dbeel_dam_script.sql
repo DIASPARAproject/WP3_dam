@@ -5,7 +5,8 @@
 -- We will populate those tables and modify them
 
 
--- we will separate the dam and the electrofishing db even if they use the same nomenclature as the source.
+-- we will separate the dam and the electrofishing db even 
+--if they use the same nomenclature as the source.
 ALTER TABLE nomenclature.nomenclature 
 	ALTER COLUMN no_code TYPE varchar(3);
 
@@ -76,10 +77,13 @@ ALTER SEQUENCE nomenclature.nomenclature_no_id_seq
 
 -- biological_characteristic_type => Align with other vocab for name and code
 
-INSERT INTO nomenclature.biological_characteristic_type SELECT * FROM nomenclature_eda.biological_characteristic_type; --22
+INSERT INTO nomenclature.biological_characteristic_type 
+SELECT * FROM nomenclature_eda.biological_characteristic_type; --22
 
-INSERT INTO nomenclature.biological_characteristic_type (no_id,no_type,no_name,bc_label,bc_unit,bc_data_type)
-  VALUES (307,'Biological characteristic type','eye_diam_mean_mm','Mean eye diameter','mm','real');
+INSERT INTO nomenclature.biological_characteristic_type 
+(no_id,no_type,no_name,bc_label,bc_unit,bc_data_type)
+  VALUES (307,'Biological characteristic type',
+'eye_diam_mean_mm','Mean eye diameter','mm','real');
 UPDATE nomenclature.biological_characteristic_type
   SET no_name='Weightg',bc_label='Weight in g'
   WHERE no_id=42;
@@ -158,8 +162,10 @@ CREATE TABLE dam.obstruction_place (
 	geom geometry NULL,
 	CONSTRAINT uk_op_id_original UNIQUE (op_id_original),
 	CONSTRAINT obstruction_place_pkey PRIMARY KEY (op_id),
-	CONSTRAINT fk_op_op_id FOREIGN KEY (op_op_id) REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_op_dp_id FOREIGN KEY (op_dp_id) REFERENCES dam.data_provider(dp_id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_op_op_id FOREIGN KEY (op_op_id) 
+	REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_op_dp_id FOREIGN KEY (op_dp_id) 
+	REFERENCES dam.data_provider(dp_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE INDEX obstruction_place_geom_gist ON dam.obstruction_place USING gist (geom);
 ALTER TABLE dam.obstruction_place OWNER TO diaspara_admin;
@@ -214,24 +220,29 @@ INSERT INTO nomenclature.species SELECT * FROM nomenclature_eda.fishway_type;
 CREATE TRIGGER tr_fishway_type_insert BEFORE
 INSERT
     ON
-    nomenclature.fishway_type FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
+    nomenclature.fishway_type FOR EACH ROW EXECUTE 
+FUNCTION nomenclature.nomenclature_id_insert();
 CREATE TRIGGER tr_fishway_type_update BEFORE
 UPDATE
     ON
-    nomenclature.fishway_type FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+    nomenclature.fishway_type FOR EACH ROW EXECUTE 
+FUNCTION nomenclature.nomenclature_id_update();
    
 ALTER TABLE nomenclature.fishway_type OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.fishway_type TO diaspara_read;
 
-INSERT INTO nomenclature.downstream_mitigation_measure SELECT * FROM nomenclature_eda.downstream_mitigation_measure;
-CREATE TRIGGER tr_downstream_mitigation_measure_insert BEFORE
-INSERT
+INSERT INTO nomenclature.downstream_mitigation_measure 
+SELECT * FROM nomenclature_eda.downstream_mitigation_measure;
+CREATE TRIGGER tr_downstream_mitigation_measure_insert 
+BEFORE INSERT
     ON
-    nomenclature.downstream_mitigation_measure FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
-CREATE TRIGGER tr_downstream_mitigation_measure_update BEFORE
-UPDATE
+    nomenclature.downstream_mitigation_measure 
+FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
+CREATE TRIGGER tr_downstream_mitigation_measure_update 
+BEFORE UPDATE
     ON
-    nomenclature.downstream_mitigation_measure FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+    nomenclature.downstream_mitigation_measure FOR EACH ROW 
+EXECUTE FUNCTION nomenclature.nomenclature_id_update();
    
 ALTER TABLE nomenclature.downstream_mitigation_measure OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.downstream_mitigation_measure TO diaspara_read;
@@ -252,11 +263,13 @@ DELETE FROM nomenclature.obstruction_type
 CREATE TRIGGER tr_obstruction_type_insert BEFORE
 INSERT
     ON
-    nomenclature.obstruction_type FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
+    nomenclature.obstruction_type FOR EACH ROW 
+EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
 CREATE TRIGGER tr_obstruction_type_update BEFORE
 UPDATE
     ON
-    nomenclature.obstruction_type FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+    nomenclature.obstruction_type FOR EACH ROW 
+EXECUTE FUNCTION nomenclature.nomenclature_id_update();
    
 ALTER TABLE nomenclature.obstruction_type OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.obstruction_type TO diaspara_read;
@@ -311,11 +324,17 @@ INSERT INTO nomenclature.event_change (no_code, no_type, no_name)
 CREATE TRIGGER tr_event_change_insert BEFORE
 INSERT
     ON
-    nomenclature.event_change FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
+    nomenclature.event_change FOR EACH ROW 
+EXECUTE FUNCTION nomenclature.nomenclature_id_insert();
 CREATE TRIGGER tr_event_change_update BEFORE
 UPDATE
     ON
-    nomenclature.event_change FOR EACH ROW EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+    nomenclature.event_change FOR EACH ROW 
+EXECUTE FUNCTION nomenclature.nomenclature_id_update();
+
+ALTER TABLE nomenclature.event_change OWNER TO diaspara_admin;
+GRANT SELECT ON nomenclature.event_change TO diaspara_read;
+
 
 DROP TABLE dam.establishment CASCADE;
 
@@ -349,11 +368,16 @@ CREATE TABLE dam.obstruction (
 	ob_date_last_update date NULL,
 	ob_event_change_no_id int4 NULL,
 	CONSTRAINT obstruction_pkey PRIMARY KEY (ob_id),
-	CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) REFERENCES nomenclature.fishway_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_ob_obstruction_type_no_id FOREIGN KEY (ob_obstruction_type_no_id) REFERENCES nomenclature.obstruction_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_event_change_no_id FOREIGN KEY (ob_event_change_no_id) REFERENCES nomenclature.event_change(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) 
+	REFERENCES nomenclature.fishway_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) 
+	REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) 
+	REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_ob_obstruction_type_no_id FOREIGN KEY (ob_obstruction_type_no_id) 
+	REFERENCES nomenclature.obstruction_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_event_change_no_id FOREIGN KEY (ob_event_change_no_id) 
+	REFERENCES nomenclature.event_change(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
 	CONSTRAINT uk_obstruction UNIQUE (ob_op_id, ob_starting_date)
 );
 
@@ -403,17 +427,19 @@ INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
 ALTER TABLE nomenclature.species OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.species TO diaspara_read;
 
---Create a fishway table TODO
+
 --id
 --expertise on weither species can cross the dam
 --when was it built
 --DELETE FROM nomenclature.fishway_type;
+
 INSERT INTO nomenclature.fishway_type (no_id,no_code,no_type,no_name)
 	SELECT no_id,no_code,no_type,no_name FROM nomenclature_eda.fishway_type;
 ALTER TABLE nomenclature.fishway_type OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.fishway_type TO diaspara_read;
 
 -- DROP TABLE montepomi.dbeel_physical_obstruction_pass_species;
+
 
 CREATE TABLE dam.fishway (
 	fi_ob_id uuid NULL,
@@ -424,12 +450,19 @@ CREATE TABLE dam.fishway (
 	fi_presence_pass bool NULL,
 	fi_date date NULL,
 	CONSTRAINT fishway_pkey PRIMARY KEY (fi_ob_id, fi_species_id),
-	CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) REFERENCES nomenclature.species(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-	CONSTRAINT fk_fi_fishway_id FOREIGN KEY (fi_fishway_id) REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT
+	CONSTRAINT f_ob_id  FOREIGN KEY (fi_ob_id) 
+	REFERENCES dam.obstruction (ob_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT f_op_id  FOREIGN KEY (fi_op_id) 
+	REFERENCES dam.obstruction_place (op_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) 
+	REFERENCES nomenclature.species(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_fi_fishway_id FOREIGN KEY (fi_fishway_id) 
+	REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 ALTER TABLE dam.fishway OWNER TO diaspara_admin;
 GRANT SELECT ON dam.fishway TO diaspara_read;
+
 
 --physical_obstruction_score_species OK
 --orient_flow OK
@@ -480,10 +513,33 @@ CREATE TABLE dam.hpp (
 	hpp_id_original text NULL,
 	hpp_source text NULL,
 	CONSTRAINT hpp_pkey PRIMARY KEY (hpp_id),
-	CONSTRAINT fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) REFERENCES dam.obstruction(ob_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) REFERENCES nomenclature.orient_flow(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_hpp_turbine_type FOREIGN KEY (hpp_turbine_type) REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE
+	CONSTRAINT fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) 
+	REFERENCES dam.obstruction(ob_id) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) 
+	REFERENCES nomenclature.orient_flow(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_hpp_turbine_type FOREIGN KEY (hpp_turbine_type) 
+	REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+ALTER TABLE  dam.hpp  OWNER TO diaspara_admin;
+GRANT SELECT ON  dam.hpp  TO diaspara_read;
+
+-- DROP TABLE dam.bypass;
+
+CREATE TABLE dam.bypass (
+  bypass_id uuid NOT NULL,
+  bypass_hpp_id uuid NULL,
+  bypass_water_depth numeric NULL,
+  bypass_width numeric NULL,
+  bypass_is_flowing bool NULL,
+  CONSTRAINT bypass_pkey PRIMARY KEY (bypass_id)
+  CONSTRAINT fk_bypass_hpp_id FOREIGN KEY (bypass_hpp_id)
+  REFERENCES dam.hpp ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+ALTER TABLE  dam.bypass  OWNER TO diaspara_admin;
+GRANT SELECT ON  dam.bypass  TO diaspara_read;
 
 --dbeel_turbine OK
 
@@ -503,8 +559,10 @@ CREATE TABLE dam.turbine (
 	turb_max_turbine_flow numeric NULL,
 	turb_description text NULL,
 	CONSTRAINT turbine_pkey PRIMARY KEY (turb_id),
-	CONSTRAINT fk_turb_turbine_type_no_id FOREIGN KEY (turb_turbine_type_no_id) REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-	CONSTRAINT fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) REFERENCES dam.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_turb_turbine_type_no_id FOREIGN KEY (turb_turbine_type_no_id) 
+	REFERENCES nomenclature.turbine_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
+	CONSTRAINT fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) REFERENCES dam.hpp(hpp_id) 
+	ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 INSERT INTO nomenclature.turbine_type SELECT * FROM nomenclature_eda.turbine_type; --20

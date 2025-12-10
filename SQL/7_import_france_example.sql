@@ -62,10 +62,14 @@ CREATE TABLE dam_france.obstruction(
   CONSTRAINT nn_ob_starting_date CHECK ((ob_starting_date IS NOT NULL)),
   CONSTRAINT uk_ob_id_date UNIQUE (ob_id, ob_starting_date, ob_ending_date),
   CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id),
-  CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) REFERENCES dam_france.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT,  
-  CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-  CONSTRAINT fk_ob_event_change_no_id FOREIGN KEY (ob_event_change_no_id) REFERENCES nomenclature.event_change(no_id) ON UPDATE CASCADE ON DELETE RESTRICT 
+  CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) 
+  REFERENCES dam_france.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT,  
+  CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) 
+  REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) 
+  REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  CONSTRAINT fk_ob_event_change_no_id FOREIGN KEY (ob_event_change_no_id) 
+  REFERENCES nomenclature.event_change(no_id) ON UPDATE CASCADE ON DELETE RESTRICT 
 )
 INHERITS (dam.obstruction);
 
@@ -117,8 +121,12 @@ FROM montepomi.dbeel_physical_obstruction ; -- 99224
 
 CREATE TABLE dam_france.hpp (
   CONSTRAINT c_pk_hpp_id PRIMARY KEY (hpp_id),
-  CONSTRAINT c_fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) REFERENCES dam_france.obstruction(ob_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT c_fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) REFERENCES nomenclature.orient_flow(no_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT c_fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) 
+  REFERENCES dam_france.obstruction(ob_id) 
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT c_fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) 
+  REFERENCES nomenclature.orient_flow(no_id) 
+  ON DELETE CASCADE ON UPDATE CASCADE
 )
 INHERITS (dam.hpp);
 
@@ -174,8 +182,12 @@ ALTER TABLE dam_france.hpp OWNER TO diaspara_admin;
 
 CREATE TABLE dam_france.fishway (
   CONSTRAINT fishway_pkey PRIMARY KEY (fi_ob_id, fi_species_id),
-  CONSTRAINT fk_fi_fishway_id FOREIGN KEY (fi_fishway_id) REFERENCES nomenclature.fishway_type(no_id) ON DELETE RESTRICT ON UPDATE CASCADE,
-  CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) REFERENCES nomenclature.species(no_id) ON DELETE RESTRICT ON UPDATE CASCADE
+  CONSTRAINT fk_fi_fishway_id FOREIGN KEY (fi_fishway_id) 
+  REFERENCES nomenclature.fishway_type(no_id) 
+  ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) 
+  REFERENCES nomenclature.species(no_id) 
+  ON DELETE RESTRICT ON UPDATE CASCADE
 ) INHERITS (dam.fishway);
 
 
@@ -215,7 +227,9 @@ ALTER TABLE dam_france.fishway OWNER TO diaspara_admin;
 
 CREATE TABLE dam_france.bypass (
   CONSTRAINT c_pk_bypass_id PRIMARY KEY (bypass_id),
-  CONSTRAINT c_fk_bypass_hpp_id FOREIGN KEY (bypass_hpp_id) REFERENCES dam_france.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT c_fk_bypass_hpp_id FOREIGN KEY (bypass_hpp_id) 
+  REFERENCES dam_france.hpp(hpp_id) 
+  ON DELETE CASCADE ON UPDATE CASCADE
 )
 INHERITS (dam.bypass);
 
@@ -229,8 +243,10 @@ ALTER TABLE dam_france.bypass OWNER TO diaspara_admin;
 
 CREATE TABLE dam_france.turbine (
   CONSTRAINT c_pk_turb_id PRIMARY KEY (turb_id),
-  CONSTRAINT c_fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) REFERENCES dam_france.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT c_fk_turb_turbine_type_no_id FOREIGN KEY (turb_turbine_type_no_id) REFERENCES nomenclature.turbine_type(no_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT c_fk_turb_hpp_id FOREIGN KEY (turb_hpp_id) 
+  REFERENCES dam_france.hpp(hpp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT c_fk_turb_turbine_type_no_id FOREIGN KEY (turb_turbine_type_no_id) 
+  REFERENCES nomenclature.turbine_type(no_id) ON DELETE CASCADE ON UPDATE CASCADE
 )
 INHERITS (dam.turbine);
 
