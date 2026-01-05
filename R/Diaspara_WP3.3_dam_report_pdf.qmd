@@ -92,7 +92,7 @@ con_diaspara_admin <- dbConnect(Postgres(),
                                 password = cred$passworddistant)
 ```
 
-foreword : this document is best viewed on the [diaspara website]() ) in html
+Foreword : this document is best viewed on the [diaspara website](https://diaspara.bordeaux-aquitaine.inrae.fr/deliverables/wp3/p16dam/rep16.html) in html
 
 
 # DAM DATABASE
@@ -415,6 +415,7 @@ The postgreSQL code for creating the table is as following
 
 # Annex 4 : Country dam table example
 
+
 <details>
 
 <summary>SQL code to create france schema </summary>
@@ -440,3 +441,7 @@ The postgreSQL code for creating the table is as following
 
 
 
+Acknowledgements :
+The Ecohydraulique pole in Toulouse, Pierre Sagnes for support with the
+data and developping things during SUDOANG.  Karl Kreuztenberger, for
+providing the various dumps to the french tables.

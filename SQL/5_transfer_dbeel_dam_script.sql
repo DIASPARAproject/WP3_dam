@@ -8,7 +8,7 @@
 -- we will separate the dam and the electrofishing db even 
 --if they use the same nomenclature as the source.
 ALTER TABLE nomenclature.nomenclature 
-	ALTER COLUMN no_code TYPE varchar(3);
+	ALTER COLUMN no_code TYPE TEXT;
 
 ALTER SCHEMA dbmig RENAME TO electrofishing;
 --ALTER SCHEMA dbmig RENAME TO dam; (with manual dump)
@@ -216,7 +216,7 @@ $function$
 -- Drop table
 
 -- DROP TABLE dbmig.observations CASCADE;
-INSERT INTO nomenclature.species SELECT * FROM nomenclature_eda.fishway_type;
+INSERT INTO nomenclature.fishway_type SELECT * FROM nomenclature_eda.fishway_type;
 CREATE TRIGGER tr_fishway_type_insert BEFORE
 INSERT
     ON
@@ -407,22 +407,45 @@ INSERT INTO nomenclature.species
 	SELECT * FROM nomenclature_eda.species;
 
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('SAL','Species','Salmo salar','Atlantic salmon');
+	VALUES ('127186','Species','Salmo salar','Atlantic salmon');
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('TRT','Species','Salmo trutta','Sea trout');
+	VALUES ('127187','Species','Salmo trutta','Sea trout');
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('ALA','Species','Alosa alosa','Twait shad');
+	VALUES ('126413','Species','Alosa alosa','Twait shad');
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('ALF','Species','Alosa fallax','Allis shad');
+	VALUES ('126415','Species','Alosa fallax','Allis shad');
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('SLP','Species','Petromyzon marinus','Sea lamprey');
+	VALUES ('101174','Species','Petromyzon marinus','Sea lamprey');
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
-	VALUES ('RLP','Species','Lampretra fluviatilis','European river lamprey');
+	VALUES ('101172','Species','Lampretra fluviatilis','European river lamprey');
 UPDATE nomenclature.species
-	SET sp_vernacular_name='European eel',no_code='ANG'
+	SET sp_vernacular_name='European eel',
+	no_code='126281'
 	WHERE no_id=30;
 INSERT INTO nomenclature.species (no_code,no_type,no_name,sp_vernacular_name)
   VALUES ('CIV','Species','Anguilla_anguilla (glass eel)','European eel (glass eel stage)')
+
+UPDATE nomenclature.species
+  SET no_code='127186'
+  WHERE no_id=315;
+UPDATE nomenclature.species
+  SET no_code='126413'
+  WHERE no_id=317;
+UPDATE nomenclature.species
+  SET no_code='126415'
+  WHERE no_id=318;
+UPDATE nomenclature.species
+  SET no_code='101174'
+  WHERE no_id=319;
+UPDATE nomenclature.species
+  SET no_code='101172'
+  WHERE no_id=320;
+UPDATE nomenclature.species
+  SET no_code='126281'
+  WHERE no_id=30;
+UPDATE nomenclature.species
+  SET no_code='127187'
+  WHERE no_id=316;
 
 ALTER TABLE nomenclature.species OWNER TO diaspara_admin;
 GRANT SELECT ON nomenclature.species TO diaspara_read;
@@ -475,7 +498,6 @@ DROP TABLE IF EXISTS nomenclature.predator_subtype;
 
 --sex OK
 
---stage OK
 --turbine_type OK
 --type_of_unit REMOVE
 DROP TABLE IF EXISTS nomenclature.type_of_unit;
