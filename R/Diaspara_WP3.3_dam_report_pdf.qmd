@@ -97,14 +97,14 @@ Foreword : this document is best viewed on the [diaspara website](https://diaspa
 
 # DAM DATABASE
 
-The dam database has been developed during the (SUDOANG project)[https://sudoang.eu/en]. 
-It has been further modified to handle multiple species and
+The dam database was originally developed during the (SUDOANG project)[https://sudoang.eu/en]. 
+Here, it has been further modified to handle multiple species and
 account for both salmon and eel mortality during the downstream migration.
 At its core stands the DBeel database. This database was initially developed during 
 the POSE project [@walker_pilot_2011] to handle all threats
-for eel, the DBeel database was used and extended in SUDOANG. This database makes an
+for eel. The DBeel database was used and extended in SUDOANG. This database makes an
 extensive use of inheritance in POSTGRES to create a consistent database.
-Here it has been simplified removing elements that were judged not necessary in the
+Here it has been simplified by removing elements that were judged not necessary in the
 database structure to answer the core of the question.
 The code of the table in the national database is provided.
 
@@ -393,7 +393,7 @@ The dam db was created from the dbeel using the following script.
 
 <details>
 
-<summary>SQL code to transfert from the DBEEL </summary>
+<summary>SQL code to transfered from the DBEEL </summary>
 
 ``` {.sql include="../SQL/5_transfer_dbeel_dam_script.sql"}
 ```
