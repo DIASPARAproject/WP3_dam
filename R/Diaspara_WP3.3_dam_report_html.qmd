@@ -89,24 +89,38 @@ con_diaspara_admin <- dbConnect(Postgres(),
                                 password = cred$passworddistant)
 ```
 
-# DAM DATABASE
+# Introduction
+River fragmentation induced by human obstacles is a main threat to diadromous 
+species. By impairing their migrations in rivers, they hinder their access to 
+critical growth or reproduction habitats and potentially impair the achievement
+the achievement of their life cycle. Turbin at hydropower station is also a direct
+source of mortality of fish during their downstream migration. 
 
-The dam database was originally developed during the (SUDOANG project)[https://sudoang.eu/en]. 
-Here, it has been further modified to handle multiple species and
-account for both salmon and eel mortality during the downstream migration.
-At its core stands the DBeel database. This database was initially developed during 
-the POSE project [@walker_pilot_2011] to handle all threats
-for eel. The DBeel database was used and extended in SUDOANG. This database makes an
-extensive use of inheritance in POSTGRES to create a consistent database.
-Here it has been simplified by removing elements that were judged not necessary in the
-database structure to answer the core of the question.
-The code of the table in the national database is provided.
+In view of this and in a context of an ecosystem approach of fisheries management,
+there is a clear need to account for the impact of obstacles on the status of the
+species and to develop tools to prioritize restoration actions. To do so, a prerequisite
+is the availability of data on the location of dams as well as a set of 
+characteristics related to their impacts, but those data are scattered, not easily
+available and not standardised.
+
+This database proposes a database structure that could be used to collect and store
+a minimal set of data across Europe to quantify the impact of dams and weirs on 
+diadromous fish stocks. 
+
+The work is based on an the DBEEL data database from the 
+the POSE project [@walker_pilot_2011] that was developed to handle all threats
+for eel, and was latter extended  during the (SUDOANG project)[https://sudoang.eu/en].
+Here, we develop a simplified elements by removing all elements that were judged not necessary in the
+database structure to answer the core of the question. This simplification is critical
+to then simplify the data collection at a large spatial scale. The code of the table in the national database is provided.
+
+
 
 # Obstruction place
 
 Each dam is characterized by a location which forms the top table (obstruction_place) (@fig-dam_db_op). 
 For some complex river systems (braided rivers, branches ...) it is sometimes necessary to link the dams
-together, identifying the main dam over which the cumulated height of dams will be calculated.
+together, identifying the main dam over which the cumulated height of dams will be calculated.{>>end of the sentence seems weird<<}
 
 ```{mermaid}
 %%| label: fig-dam_db_op
@@ -142,7 +156,7 @@ flowchart TB
     classDef main fill:#268073,color:white
 ```
 
-The data reporters must be reported in EDMO (European Directory of Marine Organisations) (Table @tbl-icesEDMO).
+The data reporters must be reported in EDMO (European Directory of Marine Organisations) (Table @tbl-icesEDMO). {>>I won't mention that: it depends where the database will finally be stored: not sure that EA uses EDMO for example. For me ICES is not the good candidate. Moreover, we are speaking of continental threats, so most data providers won't be in EDMO, asking them to register will create bottleneck, reluctance.<<}
 
 ```{r}
 #| label: tbl-icesEDMO
@@ -298,20 +312,24 @@ l
 
 ```
 
+{>>in the caption, I think we should say that (i) it is not dam only but also weirs, (ii) we are plotting the locations, (iii) where the data come from<<}
+
 
 # Physical obstruction
 
-This table (@tbl-obstruction) is linked to the physical location of the dam.
+This table (@tbl-obstruction) is linked to the physical location of the dam and store meta-data on the dam itself.
+
 It can be summarized as following :
 
 - Physical obstruction has date of start and end
 
-- The changes ara linked to Events (Erasement, change of height change dam period)
+- Any changes are linked to Events (Erasement, change of height change dam period)
 
 - There might be several fishway types
 
-- It includes information on downstream water depth
+- It includes information on downstream water depth (a key parameter to assess the passability of an obstacle)
 
+{>>if you mention fishway here, then we should mention turbin? the logic is the same for the two?<<}
 
 
 ```{mermaid}
@@ -453,7 +471,7 @@ load(file="data/presentation_dam_fi.Rdata")
 # Hydro Power Plants
 
 The elements in hydro power plants  (@fig-dam_db_hp, @tbl-hpp)  are necessary to make a calculation of the mortality
-at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration.
+at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration. {>>should we refer to deliverable d2.2.1 from sudoang here https://sudoang.eu/wp-content/uploads/2021/04/Deliverables-2-1-1_2-2-3-French-2.pdf ?<<}
 
 ```{mermaid}
 %%| label: fig-dam_db_hp
@@ -521,6 +539,11 @@ load(file="data/presentation_dam_hpp.Rdata")
 ```
 
 # Turbines
+
+In addition to the data stored in the hydropower plant (@fig-dam_db_hp), the turbin
+database store key characteristics of turbin that control the level of induced
+mortality.
+
 
 ```{mermaid}
 %%| label: fig-dam_db_tu
