@@ -94,25 +94,42 @@ con_diaspara_admin <- dbConnect(Postgres(),
 
 Foreword : this document is best viewed on the [diaspara website](https://diaspara.bordeaux-aquitaine.inrae.fr/deliverables/wp3/p16dam/rep16.html) in html
 
+# Introduction
 
-# DAM DATABASE
+River fragmentation induced by human obstacles is a main threat to diadromous 
+species. By impairing their migrations in rivers, they hinder their access to 
+critical growth or reproduction habitats and potentially impair the achievement
+of their life cycle. Turbines at hydropower stations, pumps are also a direct
+source of mortality of fish during their downstream migration, or their move within the rivers. 
 
-The dam database was originally developed during the (SUDOANG project)[https://sudoang.eu/en]. 
-Here, it has been further modified to handle multiple species and
-account for both salmon and eel mortality during the downstream migration.
-At its core stands the DBeel database. This database was initially developed during 
-the POSE project [@walker_pilot_2011] to handle all threats
-for eel. The DBeel database was used and extended in SUDOANG. This database makes an
-extensive use of inheritance in POSTGRES to create a consistent database.
-Here it has been simplified by removing elements that were judged not necessary in the
-database structure to answer the core of the question.
-The code of the table in the national database is provided.
+In view of this and in a context of an ecosystem approach of fisheries management,
+there is a clear need to account for the impact of obstacles on the status of the
+species and to develop tools to prioritize restoration actions. To do so, a prerequisite
+is the availability of data on the location of dams as well as a set of 
+characteristics related to their impacts, but those data are scattered, not easily
+available and not standardised.
+
+This database proposes a database structure that could be used to collect and store
+a minimal set of data across Europe to quantify the impact of dams and weirs on 
+diadromous fish stocks. 
+
+The work is based on an the DBEEL data database from the 
+the POSE project [@walker_pilot_2011] that was developed to handle all threats
+for eel, and was latter extended  during the (SUDOANG project)[https://sudoang.eu/en].
+Here, we develop a simplified elements by removing all elements that were judged not necessary in the
+database structure to answer the core of the question. This simplification is critical
+to then simplify the data collection at a large spatial scale. The code of the table in the national database is provided.
+
+
 
 # Obstruction place
 
 Each dam is characterized by a location which forms the top table (obstruction_place) (@fig-dam_db_op). 
 For some complex river systems (braided rivers, branches ...) it is sometimes necessary to link the dams
-together, identifying the main dam over which the cumulated height of dams will be calculated.
+together, thereby identifying the main dam structure used to calculate cumulated impact.
+Indeed if two dams are in two parallel branches of the river, for upstream migration the cumulated impact is only based on
+the height and characteristics of the main dam as otherwise we would enter similar height twice. For downstream migration, the flow is split within the dam complex, using the main dam, and
+all dams attached to it.
 
 ![Obstruction place](images/obstruction_place.png){#fig-dam_db_op fig-alt="The location of the table obstruction place within a MPD diagram" .lightbox width=80%}
 
@@ -121,11 +138,12 @@ together, identifying the main dam over which the cumulated height of dams will 
 To handle the updates of data, the database uses inheritance. The data are entered
 in the country schema, in this schema all tables inherit from the tables in the main
 dam schema (@fig-dam_db_opin). When updates are collected, one can simply
-upload all tables again in the country schema. Other columns can be added at the national 
-level to collect additional information. 
-
+upload all tables again in the country schema. Other columns can be added at the national R/Diaspara_WP3.3_dam_report_html.qmd level to collect additional information. 
 ![Obstruction place inheritance](images/obstruction_place_inheritance.png){#fig-dam_db_opin fig-alt="Diagram Illustrating how the tables from several countries (child tables) link to the main (mother) table"}
 
+Currently the data reporters is identified in EDMO (European Directory of Marine Organisations) (Table @tbl-icesEDMO),
+as for the first datacall the source of data will probably be the institute reporting at the national level. The development
+of a dam database in the Environment Agency will probably change this.
 
 ```{r}
 #| label: tbl-icesEDMO
@@ -147,6 +165,7 @@ flextable() |>
 EDMO
 ```
 
+The obstruction place table is illustrated in Table @tbl-obstruction_place.
 
 ```{r}
 #| label: tbl-obstruction_place
@@ -168,17 +187,17 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Physical obstruction
 
+This table (@tbl-obstruction) is linked to the physical location of the dam and store meta-data on the dam characteristics.
 
-This table (@tbl-obstruction, @fig-physical_obstruction) is linked to the physical location of the dam.
 It can be summarized as following :
 
 - Physical obstruction has date of start and end
 
-- The changes ara linked to Events (Erasement, change of height change dam period)
+- Any changes are linked to Events (Erasement, change of height change dam period)
 
 - There might be several fishway types
 
-- It includes information on downstream water depth
+- It includes information on downstream water depth (a key parameter to assess the passability of an obstacle)
 
 ![Simplified structure of the dam database, the physical obstruction](images/fig-physical_obstruction.png){fig-alt="Diagram showing the physical obstruction table relation with others" #fig-physical_obstruction  width=80%}
 
@@ -205,10 +224,11 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Assessment of passability
 
+The table (@tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad (@fig-dam_db_fp).
+
 ![Simplied structure of the dam database, assessment of passability](images/fig-dam_db_fp.png){fig-alt="Diagram showing how the passability table relates to other" #fig-dam_db_fp  width=80%}
 
 
-The table (@tbl-fishway) is called fishway but in practise refers to fish passage, as it evaluates for each species whether the dam is passable, and this is often related to an expertise of fishway type. Basically it says whether a fishway is efficient for each species, a fishway designed for Salmon might not be suitable for Shad for Shad (@fig-dam_db_fp)..
 
 ```{r}
 #| label: tbl-fishway
@@ -239,8 +259,9 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Hydro Power Plants
 
-The elements in hydro power plants (@fig-dam_db_hp, @tbl-hpp) are necessary to make a calculation of the mortality
-at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration.
+The elements in hydro power plants  (@fig-dam_db_hp, @tbl-hpp)  are necessary to make a calculation of the mortality
+at the dam level, according to the type of turbine, equipment flow and scenarios of flows at migration (see
+deliverable d2.2.1 from sudoang here https://sudoang.eu/wp-content/uploads/2021/04/Deliverables-2-1-1_2-2-3-French-2.pdf).
 
 ![Simplied structure of the dam database, hydro power plants](images/fig-dam_db_hp.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_hp  width=80%}
 
@@ -272,6 +293,9 @@ kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
 
 # Turbines
 
+In addition to the data stored in the hydropower plant (@fig-dam_db_hp), the turbine
+database store key characteristics of turbines that control the level of induced
+mortality.
 
 ![Simplied structure of the dam database, Turbine table](images/fig-dam_db_tu.png){fig-alt="Diagram showing how the hydropower plant table relates to other" #fig-dam_db_tu  width=80%}
 
