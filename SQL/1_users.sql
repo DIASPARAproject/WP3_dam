@@ -7,12 +7,19 @@
 
 createDB -U postgres migdb
 
-# TODO ON SERVER MODIFY pg_hba.conf
-
 
 --- extension management
 CREATE EXTENSION "uuid-ossp" SCHEMA "public";
 CREATE EXTENSION postgis SCHEMA "public";
+-- here we create an admin password, you probably want to use one local admin there to change this
+-- everywhere
+CREATE USER diaspara_admin ;
+CREATE USER diaspara_read;
+
+GRANT CONNECT ON DATABASE "diaspara" TO diaspara_read;
+ALTER DATABASE "diaspara" OWNER TO diaspara_admin;
+ALTER ROLE diaspara_read  WITH LOGIN;
+
 
 
 

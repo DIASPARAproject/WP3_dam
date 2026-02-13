@@ -233,7 +233,7 @@ CREATE TABLE dam.bypass (
 ALTER TABLE dam.bypass OWNER TO diaspara_admin;
 
 --
--- Name: data_provider; Type: TABLE; Schema: dam; Owner: postgres
+-- Name: data_provider; Type: TABLE; Schema: dam; Owner: diaspara_admin
 --
 
 CREATE TABLE dam.data_provider (
@@ -244,10 +244,10 @@ CREATE TABLE dam.data_provider (
 );
 
 
-ALTER TABLE dam.data_provider OWNER TO postgres;
+ALTER TABLE dam.data_provider OWNER TO diaspara_admin;
 
 --
--- Name: data_provider_dp_id_seq; Type: SEQUENCE; Schema: dam; Owner: postgres
+-- Name: data_provider_dp_id_seq; Type: SEQUENCE; Schema: dam; Owner: diaspara_admin
 --
 
 CREATE SEQUENCE dam.data_provider_dp_id_seq
@@ -259,10 +259,10 @@ CREATE SEQUENCE dam.data_provider_dp_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE dam.data_provider_dp_id_seq OWNER TO postgres;
+ALTER SEQUENCE dam.data_provider_dp_id_seq OWNER TO diaspara_admin;
 
 --
--- Name: data_provider_dp_id_seq; Type: SEQUENCE OWNED BY; Schema: dam; Owner: postgres
+-- Name: data_provider_dp_id_seq; Type: SEQUENCE OWNED BY; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER SEQUENCE dam.data_provider_dp_id_seq OWNED BY dam.data_provider.dp_id;
@@ -286,7 +286,7 @@ CREATE TABLE dam.fishway (
 ALTER TABLE dam.fishway OWNER TO diaspara_admin;
 
 --
--- Name: hpp; Type: TABLE; Schema: dam; Owner: postgres
+-- Name: hpp; Type: TABLE; Schema: dam; Owner: diaspara_admin
 --
 
 CREATE TABLE dam.hpp (
@@ -314,7 +314,7 @@ CREATE TABLE dam.hpp (
 );
 
 
-ALTER TABLE dam.hpp OWNER TO postgres;
+ALTER TABLE dam.hpp OWNER TO diaspara_admin;
 
 --
 -- Name: obstruction; Type: TABLE; Schema: dam; Owner: diaspara_admin
@@ -356,7 +356,7 @@ CREATE TABLE dam.obstruction_place (
 ALTER TABLE dam.obstruction_place OWNER TO diaspara_admin;
 
 --
--- Name: turbine; Type: TABLE; Schema: dam; Owner: postgres
+-- Name: turbine; Type: TABLE; Schema: dam; Owner: diaspara_admin
 --
 
 CREATE TABLE dam.turbine (
@@ -375,7 +375,7 @@ CREATE TABLE dam.turbine (
 );
 
 
-ALTER TABLE dam.turbine OWNER TO postgres;
+ALTER TABLE dam.turbine OWNER TO diaspara_admin_admin;
 
 --
 -- Name: data_provider dp_id; Type: DEFAULT; Schema: dam; Owner: postgres
@@ -393,7 +393,7 @@ ALTER TABLE ONLY dam.bypass
 
 
 --
--- Name: data_provider data_provider_pkey; Type: CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: data_provider data_provider_pkey; Type: CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.data_provider
@@ -409,7 +409,7 @@ ALTER TABLE ONLY dam.fishway
 
 
 --
--- Name: hpp hpp_pkey; Type: CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: hpp hpp_pkey; Type: CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.hpp
@@ -433,7 +433,7 @@ ALTER TABLE ONLY dam.obstruction_place
 
 
 --
--- Name: turbine turbine_pkey; Type: CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: turbine turbine_pkey; Type: CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.turbine
@@ -480,7 +480,7 @@ FOR EACH ROW EXECUTE FUNCTION dam.observations_id_update();
 
 
 --
--- Name: data_provider fk_dp_edmo_key; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: data_provider fk_dp_edmo_key; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.data_provider
@@ -516,7 +516,7 @@ REFERENCES nomenclature.species(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: hpp fk_hpp_ob_id; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: hpp fk_hpp_ob_id; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.hpp
@@ -525,7 +525,7 @@ REFERENCES dam.obstruction(ob_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: hpp fk_hpp_orient_flow_no_id; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: hpp fk_hpp_orient_flow_no_id; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.hpp
@@ -534,7 +534,7 @@ REFERENCES nomenclature.orient_flow(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: hpp fk_hpp_turbine_type; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: hpp fk_hpp_turbine_type; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.hpp
@@ -588,7 +588,7 @@ REFERENCES dam.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: turbine fk_turb_hpp_id; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: turbine fk_turb_hpp_id; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.turbine
@@ -597,7 +597,7 @@ REFERENCES dam.hpp(hpp_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
--- Name: turbine fk_turb_turbine_type_no_id; Type: FK CONSTRAINT; Schema: dam; Owner: postgres
+-- Name: turbine fk_turb_turbine_type_no_id; Type: FK CONSTRAINT; Schema: dam; Owner: diaspara_admin
 --
 
 ALTER TABLE ONLY dam.turbine
@@ -683,7 +683,7 @@ GRANT SELECT ON TABLE dam.bypass TO diaspara_read;
 
 
 --
--- Name: TABLE data_provider; Type: ACL; Schema: dam; Owner: postgres
+-- Name: TABLE data_provider; Type: ACL; Schema: dam; Owner: diaspara_admin
 --
 
 GRANT SELECT ON TABLE dam.data_provider TO diaspara_read;
@@ -697,7 +697,7 @@ GRANT SELECT ON TABLE dam.fishway TO diaspara_read;
 
 
 --
--- Name: TABLE hpp; Type: ACL; Schema: dam; Owner: postgres
+-- Name: TABLE hpp; Type: ACL; Schema: dam; Owner: diaspara_admin
 --
 
 GRANT SELECT ON TABLE dam.hpp TO diaspara_read;
@@ -718,7 +718,7 @@ GRANT SELECT ON TABLE dam.obstruction_place TO diaspara_read;
 
 
 --
--- Name: TABLE turbine; Type: ACL; Schema: dam; Owner: postgres
+-- Name: TABLE turbine; Type: ACL; Schema: dam; Owner: diaspara_admin
 --
 
 GRANT SELECT ON TABLE dam.turbine TO diaspara_read;
