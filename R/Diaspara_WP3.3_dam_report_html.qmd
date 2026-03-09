@@ -181,7 +181,7 @@ flextable() |>
   autofit() |>
   theme_booktabs(x, bold_header = FALSE) 
 EDMO
-```
+```}```
 
 The obstruction place table is illustrated in Table @tbl-obstruction_place.
 

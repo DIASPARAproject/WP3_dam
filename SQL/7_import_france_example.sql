@@ -1,5 +1,4 @@
 
-CREATE SCHEMA dam_france;
 
 -- dam_france.physical_obstruction definition
 
