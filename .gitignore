@@ -70,3 +70,6 @@ R/*.aux
 
 R/*_files
 R/_extensions
+
+R/data/zenodo_amber
+R/data/*.xlsx
