@@ -54,4 +54,4 @@ R/data/zenodo_amber
 R/data/*.xlsx
 *.bak
 bash/wgtrutta.ps1
-DIASPARA_WP3_dam.Rproj
+*.Rproj
