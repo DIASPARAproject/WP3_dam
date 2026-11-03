@@ -12,12 +12,13 @@ library(here)
 library(RPostgres)
 
 #server="distant" 
-server ="local"
+server = "local"
 
 ### load DAMN data
-setwd("C:/Users/merk/Desktop/WP1_DataSkriptLokal/WP3_dam/R/")  #lokal, to be changed
+wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(wd)  #lokal, to be changed
 EDA_DAMS <- "data/MigFish_EDA_dams.xlsx"     # adjust path if needed
-here()
+
 sheets <- excel_sheets(EDA_DAMS)
 dams <- map(set_names(sheets), ~ read_excel(EDA_DAMS, sheet = .x, guess_max = 1e6))
 
@@ -80,6 +81,52 @@ DBI::dbWriteTable(
   value = obstruction_place,
   overwrite=T
 )
+# clipr::write_clip(colnames(obstruction_place))
+
+DBI::dbGetQuery(con_diaspara, "select * from dam_de.temp_obstruction_place")
+obstruction_place_db <- DBI::dbGetQuery(con_diaspara, "select * from dam_de.obstruction_place")
 
 
+DBI::dbGetQuery(con_diaspara, "select op_op_id_original from dam_de.temp_obstruction_place where op_op_id_original IS NOT NULL")
+DBI::dbExecute(con_diaspara, "UPDATE dam_de.temp_obstruction_place set op_water_code = '100000' WHERE op_water_code = '1e+05'")
+
+
+
+dbExecute(con_diaspara,
+  "INSERT INTO dam_de.obstruction_place(
+op_placename,
+op_op_id,
+op_dp_id,
+op_id_original,
+op_country,
+geom,
+op_x,
+op_y,
+op_state,
+op_sourcelayer,
+op_idnational,
+op_watername,
+op_watercode,
+op_wfdwaterbody,
+op_status)
+ SELECT 
+op_placename,
+NULL AS op_op_id,
+\"op_dp_EDMO\",
+op_id_original,
+op_country,
+st_GeomFromText(geom, 3035) AS geom,
+op_x,
+op_y,
+op_bundesland AS op_state,
+op_source_layer,
+op_id_national::BIGINT,
+op_water_name,
+op_water_code::BIGINT,
+op_wfd_water_body,
+op_status_sh
+FROM dam_de.temp_obstruction_place") # 130897
+
+
+DBI::dbDisconnect(con_diaspara)
 
