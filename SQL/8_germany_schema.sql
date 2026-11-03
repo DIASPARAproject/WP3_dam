@@ -104,8 +104,29 @@ GRANT SELECT ON TABLE dam_de.obstruction TO diaspara_read;
 
 -- Name: hpp; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
 CREATE TABLE dam_de.hpp (
+hpp_typeoriginal TEXT,
+CONSTRAINT c_pk_hpp_id PRIMARY KEY (hpp_id),
+CONSTRAINT c_fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) 
+	REFERENCES dam_de.obstruction(ob_id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT c_fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) 
+	REFERENCES nomenclature.orient_flow(no_id) ON UPDATE CASCADE ON DELETE CASCADE,
+
 )
 INHERITS (dam.hpp);
+
+-- set owner/read rigths
+ALTER TABLE dam_de.hpp OWNER TO diaspara_admin;
+GRANT SELECT ON TABLE dam_de.hpp TO diaspara_read;
+
+
+
+
+
+
+
+
+
+
 
 
 CREATE TABLE dam_de.bypass (
@@ -129,7 +150,7 @@ ALTER TABLE dam_de.fishway OWNER TO diaspara_admin;
 
 
 
-ALTER TABLE dam_de.hpp OWNER TO diaspara_admin;
+
 
 
 
@@ -190,12 +211,7 @@ ALTER TABLE ONLY dam_de.bypass
     ADD CONSTRAINT c_pk_bypass_id PRIMARY KEY (bypass_id);
 
 
---
--- Name: hpp c_pk_hpp_id; Type: CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.hpp
-    ADD CONSTRAINT c_pk_hpp_id PRIMARY KEY (hpp_id);
 
 
 --
@@ -238,20 +254,10 @@ ALTER TABLE ONLY dam_de.bypass
     ADD CONSTRAINT c_fk_bypass_hpp_id FOREIGN KEY (bypass_hpp_id) REFERENCES dam_de.hpp(hpp_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
---
--- Name: hpp c_fk_hpp_ob_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
-
-ALTER TABLE ONLY dam_de.hpp
-    ADD CONSTRAINT c_fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) REFERENCES dam_de.obstruction(ob_id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
---
--- Name: hpp c_fk_hpp_orient_flow_no_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.hpp
-    ADD CONSTRAINT c_fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) REFERENCES nomenclature.orient_flow(no_id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 
 
 --
