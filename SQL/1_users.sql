@@ -76,3 +76,8 @@ GRANT SELECT
     IN SCHEMA dam_france
     TO diaspara_read;
 
+
+-- localhost users
+
+GRANT diaspara_admin TO "Benedikt";
+alter user "Benedikt" rename to benedikt
