@@ -45,12 +45,39 @@ GRANT SELECT ON TABLE dam_de.obstruction_place TO diaspara_read;
 
 
 
-
-
 --OBSTRUCTION
 
 -- Name: obstruction; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
 CREATE TABLE dam_de.obstruction (
+	ob_typecode TEXT,
+	ob_typeoriginal1 TEXT,
+	ob_typeoriginal2 TEXT,
+	ob_typeoriginal3 TEXT,
+	ob_heightsource TEXT,
+	ob_passabilityuporiginal TEXT,
+	ob_passabilitydownoriginal TEXT,
+	ob_severityup TEXT,
+	ob_severitydown TEXT,
+	ob_potentialbarrier BOOLEAN,
+	ob_hydropower BOOLEAN,
+	ob_lengthm NUMERIC,
+	ob_widthm NUMERIC,
+	ob_culvertwidthm NUMERIC,
+	ob_culvertheigthm NUMERIC,
+	ob_culvertdiameterm NUMERIC,
+	ob_nsteps INTEGER,
+	ob_backwater TEXT,
+	ob_impoundmentlengthm INTEGER,
+	ob_velocityincreased BOOLEAN,
+	ob_substrateimpaired BOOLEAN,
+	ob_fishwayarrangement TEXT,
+	ob_migratoryfishwater TEXT,
+	ob_wfdrelevantwater BOOLEAN,
+	ob_fishregion TEXT,
+	ob_function TEXT,
+	ob_material TEXT,
+	ob_remarks TEXT,
+	ob_daterecorded DATE,	
     CONSTRAINT nn_ob_ending_date CHECK ((ob_ending_date IS NOT NULL)),
     CONSTRAINT nn_ob_starting_date CHECK ((ob_starting_date IS NOT NULL)),
     CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id),
@@ -63,8 +90,6 @@ CREATE TABLE dam_de.obstruction (
 		REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) 
 		REFERENCES dam_de.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT,
-		
-		
 )
 INHERITS (dam.obstruction);
 
@@ -75,9 +100,12 @@ GRANT SELECT ON TABLE dam_de.obstruction TO diaspara_read;
 
 
 
+--HPP
 
-
-
+-- Name: hpp; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
+CREATE TABLE dam_de.hpp (
+)
+INHERITS (dam.hpp);
 
 
 CREATE TABLE dam_de.bypass (
@@ -98,13 +126,7 @@ INHERITS (dam.fishway);
 
 ALTER TABLE dam_de.fishway OWNER TO diaspara_admin;
 
---
--- Name: hpp; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
---
 
-CREATE TABLE dam_de.hpp (
-)
-INHERITS (dam.hpp);
 
 
 ALTER TABLE dam_de.hpp OWNER TO diaspara_admin;
