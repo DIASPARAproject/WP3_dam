@@ -184,3 +184,12 @@ SELECT
 FROM  wgtrutta.agg_barrier_ids bi;
 
 ALTER MATERIALIZED VIEW  wgtrutta.view_agg_barrier_ids OWNER TO diaspara_admin;
+
+
+DROP SERVER wgtruttadb;
+CREATE SERVER wgtruttadb
+  FOREIGN DATA WRAPPER ogr_fdw
+  OPTIONS (
+    datasource 'ESRIJSON:https://gis.ices.dk/gis/rest/services/DBTrutta/DBTrutta/FeatureServer/0/query?where=1%3D1&outFields=*&f=json',
+    format 'ESRIJSON');
+
