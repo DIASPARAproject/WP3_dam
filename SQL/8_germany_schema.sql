@@ -9,7 +9,6 @@ COMMENT ON SCHEMA dam_de is 'Data from Germany';
 
 --OBSTRUCTION_PLACE
 
-
 -- Name: obstruction_place; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
 DROP TABLE IF EXISTS dam_de.obstruction_place; 
 CREATE TABLE dam_de.obstruction_place (
@@ -36,12 +35,42 @@ CREATE INDEX obstruction_place_the_geom_idx
 -- Name: obstruction_place op_id; Type: DEFAULT; Schema: dam_de; Owner: diaspara_admin
 ALTER TABLE ONLY dam_de.obstruction_place ALTER COLUMN op_id SET DEFAULT public.uuid_generate_v4();
 
---add a comment for status that it is exclusive to sh from the data we have so far
+-- add a comment for status that it is exclusive to sh from the data we have so far
 COMMENT ON COLUMN dam_de.obstruction_place.op_status IS 'so far only from sh' ;
 
---set owner/read rigths
+-- set owner/read rigths
 ALTER TABLE dam_de.obstruction_place OWNER TO diaspara_admin;
 GRANT SELECT ON TABLE dam_de.obstruction_place TO diaspara_read;
+
+
+
+
+
+
+--OBSTRUCTION
+
+-- Name: obstruction; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
+CREATE TABLE dam_de.obstruction (
+    CONSTRAINT nn_ob_ending_date CHECK ((ob_ending_date IS NOT NULL)),
+    CONSTRAINT nn_ob_starting_date CHECK ((ob_starting_date IS NOT NULL)),
+    CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id),
+	CONSTRAINT uk_ob_id_date UNIQUE (ob_id, ob_starting_date, ob_ending_date),
+	CONSTRAINT fk_ob_event_change_no_id FOREIGN KEY (ob_event_change_no_id) 
+		REFERENCES nomenclature.event_change(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) 
+		REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) 
+		REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+	CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) 
+		REFERENCES dam_de.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+		
+		
+)
+INHERITS (dam.obstruction);
+
+-- set owner/read rigths
+ALTER TABLE dam_de.obstruction OWNER TO diaspara_admin;
+GRANT SELECT ON TABLE dam_de.obstruction TO diaspara_read;
 
 
 
@@ -80,18 +109,7 @@ INHERITS (dam.hpp);
 
 ALTER TABLE dam_de.hpp OWNER TO diaspara_admin;
 
---
--- Name: obstruction; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
---
 
-CREATE TABLE dam_de.obstruction (
-    CONSTRAINT nn_ob_ending_date CHECK ((ob_ending_date IS NOT NULL)),
-    CONSTRAINT nn_ob_starting_date CHECK ((ob_starting_date IS NOT NULL))
-)
-INHERITS (dam.obstruction);
-
-
-ALTER TABLE dam_de.obstruction OWNER TO diaspara_admin;
 
 
 
@@ -136,11 +154,7 @@ CREATE VIEW dam_de.view_ob_recent AS
 
 ALTER TABLE dam_de.view_ob_recent OWNER TO cedric;
 
---
--- Name: obstruction ob_id; Type: DEFAULT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.obstruction ALTER COLUMN ob_id SET DEFAULT public.uuid_generate_v4();
 
 
 
@@ -179,22 +193,14 @@ ALTER TABLE ONLY dam_de.fishway
 
 
 --
--- Name: obstruction physical_obstruction_pkey; Type: CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id);
 
 
 
 
 
 --
--- Name: obstruction uk_ob_id_date; Type: CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT uk_ob_id_date UNIQUE (ob_id, ob_starting_date, ob_ending_date);
 
 
 
@@ -258,36 +264,16 @@ ALTER TABLE ONLY dam_de.fishway
     ADD CONSTRAINT fk_fi_species_id FOREIGN KEY (fi_species_id) REFERENCES nomenclature.species(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
---
--- Name: obstruction fk_ob_event_change_no_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
-
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT fk_ob_event_change_no_id FOREIGN KEY (ob_event_change_no_id) REFERENCES nomenclature.event_change(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
---
--- Name: obstruction fk_ob_fishway_type_no_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
-
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT fk_ob_fishway_type_no_id FOREIGN KEY (ob_fishway_type_no_id) REFERENCES nomenclature.fishway_type(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
---
--- Name: obstruction fk_ob_mitigation_measure_no_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
-
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
---
--- Name: obstruction fk_ob_op_id; Type: FK CONSTRAINT; Schema: dam_de; Owner: diaspara_admin
---
 
-ALTER TABLE ONLY dam_de.obstruction
-    ADD CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) REFERENCES dam_de.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+
 
 
 
@@ -320,11 +306,7 @@ GRANT SELECT ON TABLE dam_de.fishway TO diaspara_read;
 GRANT SELECT ON TABLE dam_de.hpp TO diaspara_read;
 
 
---
--- Name: TABLE obstruction; Type: ACL; Schema: dam_de; Owner: diaspara_admin
---
 
-GRANT SELECT ON TABLE dam_de.obstruction TO diaspara_read;
 
 
 
