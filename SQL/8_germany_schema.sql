@@ -89,7 +89,7 @@ CREATE TABLE dam_de.obstruction (
 	CONSTRAINT fk_ob_mitigation_measure_no_id FOREIGN KEY (ob_mitigation_measure_no_id) 
 		REFERENCES nomenclature.downstream_mitigation_measure(no_id) ON UPDATE CASCADE ON DELETE RESTRICT,
 	CONSTRAINT fk_ob_op_id FOREIGN KEY (ob_op_id) 
-		REFERENCES dam_de.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+		REFERENCES dam_de.obstruction_place(op_id) ON UPDATE CASCADE ON DELETE RESTRICT
 )
 INHERITS (dam.obstruction);
 
@@ -109,7 +109,7 @@ CONSTRAINT c_pk_hpp_id PRIMARY KEY (hpp_id),
 CONSTRAINT c_fk_hpp_ob_id FOREIGN KEY (hpp_ob_id) 
 	REFERENCES dam_de.obstruction(ob_id) ON UPDATE CASCADE ON DELETE CASCADE,
 CONSTRAINT c_fk_hpp_orient_flow_no_id FOREIGN KEY (hpp_orient_flow_no_id) 
-	REFERENCES nomenclature.orient_flow(no_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	REFERENCES nomenclature.orient_flow(no_id) ON UPDATE CASCADE ON DELETE CASCADE
 
 )
 INHERITS (dam.hpp);
