@@ -80,8 +80,8 @@ CREATE TABLE dam_de.obstruction (
 	ob_material TEXT,
 	ob_remarks TEXT,
 	ob_daterecorded DATE,	
-    CONSTRAINT nn_ob_ending_date CHECK ((ob_ending_date IS NOT NULL)),
-    CONSTRAINT nn_ob_starting_date CHECK ((ob_starting_date IS NOT NULL)),
+    CONSTRAINT nn_ob_ending_date CHECK (ob_ending_date IS NOT NULL),
+    CONSTRAINT nn_ob_starting_date CHECK (ob_starting_date IS NOT NULL),
     CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id),
 	CONSTRAINT uk_ob_id_date UNIQUE (ob_id, ob_starting_date, ob_ending_date),
 	CONSTRAINT fk_ob_event_change_no_id FOREIGN KEY (ob_event_change_no_id) 
@@ -122,21 +122,13 @@ GRANT SELECT ON TABLE dam_de.hpp TO diaspara_read;
 
 
 
-
-
-
-
-
-
-
-
-
 CREATE TABLE dam_de.bypass (
 )
 INHERITS (dam.bypass);
 
 
 ALTER TABLE dam_de.bypass OWNER TO diaspara_admin;
+GRANT SELECT ON TABLE dam_de.bypass TO diaspara_read;
 
 --
 -- Name: fishway; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
@@ -148,7 +140,7 @@ INHERITS (dam.fishway);
 
 
 ALTER TABLE dam_de.fishway OWNER TO diaspara_admin;
-
+GRANT SELECT ON TABLE dam_de.fishway TO diaspara_read;
 
 
 
