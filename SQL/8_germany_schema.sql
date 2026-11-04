@@ -16,9 +16,9 @@ op_x NUMERIC,
 op_y NUMERIC, 
 op_state TEXT,
 op_sourcelayer TEXT,
-op_idnational INTEGER,
+op_idnational BIGINT,
 op_watername TEXT,
-op_watercode INTEGER,
+op_watercode BIGINT,
 op_wfdwaterbody TEXT,
 op_status TEXT,
 CONSTRAINT pk_obstruction_place PRIMARY KEY (op_id),
@@ -41,6 +41,8 @@ COMMENT ON COLUMN dam_de.obstruction_place.op_status IS 'so far only from sh' ;
 -- set owner/read rigths
 ALTER TABLE dam_de.obstruction_place OWNER TO diaspara_admin;
 GRANT SELECT ON TABLE dam_de.obstruction_place TO diaspara_read;
+
+
 
 
 
