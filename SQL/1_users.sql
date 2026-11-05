@@ -77,7 +77,9 @@ GRANT SELECT
     TO diaspara_read;
 
 
--- localhost users
+-- localhost us
+GRANT diaspara_admin TO "********"; bene
+ALTER USER benedikt WITH PASSWORD **************
 
-GRANT diaspara_admin TO "Benedikt";
-alter user "Benedikt" rename to benedikt
+ALTER USER jandag WITH PASSWORD 'Gl4s@@l.'
+ALTER USER benedikt WITH PASSWORD 'Ichtyosaurus840%'

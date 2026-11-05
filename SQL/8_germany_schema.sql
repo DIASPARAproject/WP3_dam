@@ -7,6 +7,17 @@ ALTER SCHEMA dam_de OWNER TO diaspara_admin;
 GRANT USAGE ON SCHEMA dam_de TO diaspara_admin;
 COMMENT ON SCHEMA dam_de is 'Data from Germany';
 
+-- DATA PROVIDER
+
+CREATE TABLE dam_de.data_provider (
+  CONSTRAINT data_provider_pkey PRIMARY KEY (dp_id),
+  CONSTRAINT fk_dp_edmo_key FOREIGN KEY (dp_edmo_key) REFERENCES "ref"."EDMO"("Key") ON DELETE RESTRICT ON UPDATE CASCADE
+) INHERITS (dam.data_provider);
+-- set owner/read rigths
+ALTER TABLE dam_de.data_provider OWNER TO diaspara_admin;
+GRANT SELECT ON TABLE dam_de.data_provider TO diaspara_read;
+
+
 --OBSTRUCTION_PLACE
 
 -- Name: obstruction_place; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
@@ -23,10 +34,26 @@ op_wfdwaterbody TEXT,
 op_status TEXT,
 CONSTRAINT pk_obstruction_place PRIMARY KEY (op_id),
 CONSTRAINT uk_op_id_original UNIQUE (op_id_original),
+CONSTRAINT fk_op_dp_id FOREIGN KEY (op_dp_id) 
+REFERENCES dam.data_provider(dp_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_op_op_id 
+FOREIGN KEY (op_op_id) REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE
+
 CONSTRAINT fk_op_country FOREIGN KEY (op_country) 
 	REFERENCES ref.tr_country_cou(cou_code) ON UPDATE CASCADE ON DELETE restrict
 )
+
 INHERITS (dam.obstruction_place);
+
+
+
+ALTER TABLE dam_de.obstruction_place ADD CONSTRAINT fk_op_dp_id FOREIGN KEY (op_dp_id) 
+REFERENCES dam.data_provider(dp_id) 
+ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE dam_de.obstruction_place 
+ADD CONSTRAINT fk_op_op_id FOREIGN KEY (op_op_id) 
+REFERENCES dam.obstruction_place(op_id) ON DELETE CASCADE ON UPDATE CASCADE
 
 -- Name: obstruction_place_the_geom_idx; Type: INDEX; Schema: dam_de; Owner: diaspara_admin
 CREATE INDEX obstruction_place_the_geom_idx 
@@ -50,6 +77,7 @@ GRANT SELECT ON TABLE dam_de.obstruction_place TO diaspara_read;
 --OBSTRUCTION
 
 -- Name: obstruction; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
+DROP TABLE IF EXISTS dam_de.obstruction CASCADE;
 CREATE TABLE dam_de.obstruction (
 	ob_typecode TEXT,
 	ob_typeoriginal1 TEXT,
@@ -80,6 +108,7 @@ CREATE TABLE dam_de.obstruction (
 	ob_material TEXT,
 	ob_remarks TEXT,
 	ob_daterecorded DATE,	
+	ob_id_original TEXT
     CONSTRAINT nn_ob_ending_date CHECK (ob_ending_date IS NOT NULL),
     CONSTRAINT nn_ob_starting_date CHECK (ob_starting_date IS NOT NULL),
     CONSTRAINT physical_obstruction_pkey PRIMARY KEY (ob_id),
@@ -105,6 +134,8 @@ GRANT SELECT ON TABLE dam_de.obstruction TO diaspara_read;
 --HPP
 
 -- Name: hpp; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
+
+DROP TABLE IF EXISTS dam_de.hpp;
 CREATE TABLE dam_de.hpp (
 hpp_typeoriginal TEXT,
 CONSTRAINT c_pk_hpp_id PRIMARY KEY (hpp_id),
@@ -121,7 +152,7 @@ ALTER TABLE dam_de.hpp OWNER TO diaspara_admin;
 GRANT SELECT ON TABLE dam_de.hpp TO diaspara_read;
 
 
-
+DROP TABLE IF EXISTS dam_de.bypass;
 CREATE TABLE dam_de.bypass (
 )
 INHERITS (dam.bypass);
@@ -133,7 +164,7 @@ GRANT SELECT ON TABLE dam_de.bypass TO diaspara_read;
 --
 -- Name: fishway; Type: TABLE; Schema: dam_de; Owner: diaspara_admin
 --
-
+DROP TABLE IF EXISTS dam_de.fishway;
 CREATE TABLE dam_de.fishway (
 )
 INHERITS (dam.fishway);
