@@ -79,7 +79,6 @@ GRANT SELECT
 
 -- localhost us
 GRANT diaspara_admin TO "********"; bene
-ALTER USER benedikt WITH PASSWORD **************
+ALTER USER b WITH PASSWORD ************** bene
 
-ALTER USER jandag WITH PASSWORD 'Gl4s@@l.'
-ALTER USER benedikt WITH PASSWORD 'Ichtyosaurus840%'
+ALTER USER j**** WITH PASSWORD '*****************' jd
